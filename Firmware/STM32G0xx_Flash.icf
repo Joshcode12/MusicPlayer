@@ -1,0 +1,174 @@
+/*********************************************************************
+*                    SEGGER Microcontroller GmbH                     *
+*                        The Embedded Experts                        *
+**********************************************************************
+*                                                                    *
+*            (c) 2014 - 2024 SEGGER Microcontroller GmbH             *
+*                                                                    *
+*       www.segger.com     Support: support@segger.com               *
+*                                                                    *
+**********************************************************************
+*                                                                    *
+* All rights reserved.                                               *
+*                                                                    *
+* Redistribution and use in source and binary forms, with or         *
+* without modification, are permitted provided that the following    *
+* condition is met:                                                  *
+*                                                                    *
+* - Redistributions of source code must retain the above copyright   *
+*   notice, this condition and the following disclaimer.             *
+*                                                                    *
+* THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND             *
+* CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,        *
+* INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF           *
+* MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE           *
+* DISCLAIMED. IN NO EVENT SHALL SEGGER Microcontroller BE LIABLE FOR *
+* ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR           *
+* CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT  *
+* OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;    *
+* OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF      *
+* LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT          *
+* (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE  *
+* USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH   *
+* DAMAGE.                                                            *
+*                                                                    *
+**********************************************************************
+-------------------------- END-OF-HEADER -----------------------------
+
+File    : STM32G0xx_Flash.icf
+Purpose : STM32G0xx linker script for application placement in Flash,
+          for use with the SEGGER Linker.
+Maps    : STM32G030C6Tx, STM32G030C8Tx, STM32G030F6Px, STM32G030J6Mx, 
+          STM32G030K6Tx, STM32G030K8Tx, STM32G031C4Tx, STM32G031C4Ux, 
+          STM32G031C6Tx, STM32G031C6Ux, STM32G031C8Tx, STM32G031C8Ux, 
+          STM32G031F4Px, STM32G031F6Px, STM32G031F8Px, STM32G031G4Ux, 
+          STM32G031G6Ux, STM32G031G8Ux, STM32G031J4Mx, STM32G031J6Mx, 
+          STM32G031K4Tx, STM32G031K4Ux, STM32G031K6Tx, STM32G031K6Ux, 
+          STM32G031K8Tx, STM32G031K8Ux, STM32G031Y8Yx, STM32G041C6Tx, 
+          STM32G041C6Ux, STM32G041C8Tx, STM32G041C8Ux, STM32G041F6Px, 
+          STM32G041F8Px, STM32G041G6Ux, STM32G041G8Ux, STM32G041J6Mx, 
+          STM32G041K6Tx, STM32G041K6Ux, STM32G041K8Tx, STM32G041K8Ux, 
+          STM32G041Y8Yx, STM32G050C6Tx, STM32G050C8Tx, STM32G050F6Px, 
+          STM32G050K6Tx, STM32G050K8Tx, STM32G051C6Tx, STM32G051C6Ux, 
+          STM32G051C8Tx, STM32G051C8Ux, STM32G051F6Px, STM32G051F8Px, 
+          STM32G051F8Yx, STM32G051G6Ux, STM32G051G8Ux, STM32G051K6Tx, 
+          STM32G051K6Ux, STM32G051K8Tx, STM32G051K8Ux, STM32G061C6Tx, 
+          STM32G061C6Ux, STM32G061C8Tx, STM32G061C8Ux, STM32G061F6Px, 
+          STM32G061F8Px, STM32G061F8Yx, STM32G061G6Ux, STM32G061G8Ux, 
+          STM32G061K6Tx, STM32G061K6Ux, STM32G061K8Tx, STM32G061K8Ux, 
+          STM32G070CBTx, STM32G070KBTx, STM32G070RBTx, STM32G071C8Tx, 
+          STM32G071C8Ux, STM32G071CBTx, STM32G071CBUx, STM32G071EBYx, 
+          STM32G071G8Ux, STM32G071G8UxN, STM32G071GBUx, STM32G071GBUxN, 
+          STM32G071K8Tx, STM32G071K8TxN, STM32G071K8Ux, STM32G071K8UxN, 
+          STM32G071KBTx, STM32G071KBTxN, STM32G071KBUx, STM32G071KBUxN, 
+          STM32G071R8Tx, STM32G071RBIx, STM32G071RBTx, STM32G081CBTx, 
+          STM32G081CBUx, STM32G081EBYx, STM32G081GBUx, STM32G081GBUxN, 
+          STM32G081KBTx, STM32G081KBTxN, STM32G081KBUx, STM32G081KBUxN, 
+          STM32G081RBIx, STM32G081RBTx, STM32G0B0CETx, STM32G0B0KETx, 
+          STM32G0B0RETx, STM32G0B0VETx, STM32G0B1CBTx, STM32G0B1CBTxN, 
+          STM32G0B1CBUx, STM32G0B1CBUxN, STM32G0B1CCTx, STM32G0B1CCTxN, 
+          STM32G0B1CCUx, STM32G0B1CCUxN, STM32G0B1CETx, STM32G0B1CETxN, 
+          STM32G0B1CEUx, STM32G0B1CEUxN, STM32G0B1KBTx, STM32G0B1KBTxN, 
+          STM32G0B1KBUx, STM32G0B1KBUxN, STM32G0B1KCTx, STM32G0B1KCTxN, 
+          STM32G0B1KCUx, STM32G0B1KCUxN, STM32G0B1KETx, STM32G0B1KETxN, 
+          STM32G0B1KEUx, STM32G0B1KEUxN, STM32G0B1MBTx, STM32G0B1MCTx, 
+          STM32G0B1METx, STM32G0B1NEYx, STM32G0B1RBIxN, STM32G0B1RBTx, 
+          STM32G0B1RBTxN, STM32G0B1RCIxN, STM32G0B1RCTx, STM32G0B1RCTxN, 
+          STM32G0B1REIxN, STM32G0B1RETx, STM32G0B1RETxN, STM32G0B1VBIx, 
+          STM32G0B1VBTx, STM32G0B1VCIx, STM32G0B1VCTx, STM32G0B1VEIx, 
+          STM32G0B1VETx, STM32G0C1CCTx, STM32G0C1CCTxN, STM32G0C1CCUx, 
+          STM32G0C1CCUxN, STM32G0C1CETx, STM32G0C1CETxN, STM32G0C1CEUx, 
+          STM32G0C1CEUxN, STM32G0C1KCTx, STM32G0C1KCTxN, STM32G0C1KCUx, 
+          STM32G0C1KCUxN, STM32G0C1KETx, STM32G0C1KETxN, STM32G0C1KEUx, 
+          STM32G0C1KEUxN, STM32G0C1MCTx, STM32G0C1METx, STM32G0C1NEYx, 
+          STM32G0C1RCIxN, STM32G0C1RCTx, STM32G0C1RCTxN, STM32G0C1REIxN, 
+          STM32G0C1RETx, STM32G0C1RETxN, STM32G0C1VCIx, STM32G0C1VCTx, 
+          STM32G0C1VEIx, STM32G0C1VETx
+Literature:
+  [1]  SEGGER Linker User Guide (https://www.segger.com/doc/UM20005_Linker.html)
+  [2]  SEGGER Linker Section Placement (https://wiki.segger.com/SEGGER_Linker_Script_Files)
+*/
+
+define memory with size = 4G;
+
+//
+// Combined regions per memory type
+//
+define region FLASH = FLASH1;
+define region RAM   = RAM1;
+
+//
+// Block definitions
+//
+define block vectors                        { section .vectors };                                   // Vector table section
+define block vectors_ram                    { section .vectors_ram };                               // Vector table section
+define block ctors                          { section .ctors,     section .ctors.*, block with         alphabetical order { init_array } };
+define block dtors                          { section .dtors,     section .dtors.*, block with reverse alphabetical order { fini_array } };
+define block exidx                          { section .ARM.exidx, section .ARM.exidx.* };
+define block tbss                           { section .tbss,      section .tbss.*  };
+define block tdata                          { section .tdata,     section .tdata.* };
+define block tls with fixed order           { block tbss, block tdata };
+define block tdata_load                     { copy of block tdata };
+define block heap           with auto size = __HEAPSIZE__,  alignment = 8, readwrite access { };
+define block stack          with      size = __STACKSIZE__, alignment = 8, readwrite access { };
+define block stack_process  with      size = __STACKSIZE_PROCESS__, alignment = 8, /* fill =0xCD, */ readwrite access { };
+
+//
+// Explicit initialization settings for sections
+// Packing options for initialize by copy: packing=auto/lzss/zpak/packbits
+//
+do not initialize                           { section .non_init, section .non_init.*, section .*.non_init, section .*.non_init.* };
+do not initialize                           { section .no_init, section .no_init.*, section .*.no_init, section .*.no_init.* };   // Legacy sections, kept for backwards compatibility
+do not initialize                           { section .noinit, section .noinit.*, section .*.noinit, section .*.noinit.* };       // Legacy sections, used by some SDKs/HALs
+do not initialize                           { block vectors_ram };
+initialize by copy with packing=auto        { section .data, section .data.*, section .*.data, section .*.data.* };               // Static data sections
+initialize by copy with packing=auto        { section .fast, section .fast.*, section .*.fast, section .*.fast.* };               // "RAM Code" sections
+
+initialize by calling __SEGGER_STOP_X_InitLimits    { section .data.stop.* };
+
+#define USES_ALLOC_FUNC                                   \
+  linked symbol malloc || linked symbol aligned_alloc ||  \
+  linked symbol calloc || linked symbol realloc
+
+initialize by calling __SEGGER_init_heap if USES_ALLOC_FUNC { block heap };                        // Init the heap if one is required
+initialize by calling __SEGGER_init_ctors    { block ctors };                                      // Call constructors for global objects which need to be constructed before reaching main (if any). Make sure this is done after setting up heap.
+
+//assert with warning "free() linked into application but there are no calls to an allocation function!" {
+//  linked symbol free => USES_ALLOC_FUNC
+//};
+
+assert with error "heap is too small!"              { USES_ALLOC_FUNC => size  of block heap >= 48 };
+assert with error "heap size not a multiple of 8!"  { USES_ALLOC_FUNC => size  of block heap % 8 == 0 };
+assert with error "heap not correctly aligned!"     { USES_ALLOC_FUNC => start of block heap % 8 == 0 };
+
+//
+// Explicit placement in FLASHn
+//
+place in FLASH1                             { section .FLASH1, section .FLASH1.* };
+//
+// FLASH Placement
+//
+place at start of FLASH                     { block vectors };                                      // Vector table section
+place in FLASH with minimum size order      { block tdata_load,                                     // Thread-local-storage load image
+                                              block exidx,                                          // ARM exception unwinding block
+                                              block ctors,                                          // Constructors block
+                                              block dtors,                                          // Destructors block
+                                              readonly,                                             // Catch-all for readonly data (e.g. .rodata, .srodata)
+                                              readexec                                              // Catch-all for (readonly) executable code (e.g. .text)
+                                            };
+
+//
+// Explicit placement in RAMn
+//
+place in RAM1                               { section .RAM1, section .RAM1.* };
+//
+// RAM Placement
+//
+place at start of RAM                       { block vectors_ram };
+place in RAM                                { section .fast, section .fast.* };                     // "ramfunc" section
+place in RAM with auto order                { block tls,                                            // Thread-local-storage block
+                                              readwrite,                                            // Catch-all for initialized/uninitialized data sections (e.g. .data, .noinit)
+                                              zeroinit                                              // Catch-all for zero-initialized data sections (e.g. .bss)
+                                            };
+place in RAM                                { block heap };                                         // Heap reserved block
+place at end of RAM                         { block stack };                                        // Stack reserved block at the end

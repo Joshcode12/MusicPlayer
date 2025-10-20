@@ -1,0 +1,20 @@
+(kicad_sch
+	(version 20250114)
+	(generator "eeschema")
+	(generator_version "9.0")
+	(uuid "aac91bbc-b810-4f18-a60e-af27d7290528")
+	(paper "USLetter")
+	(title_block
+		(title "Music Player ")
+		(date "2025-10-20")
+		(rev "1")
+		(company "Joshua")
+	)
+	(lib_symbols)
+	(sheet_instances
+		(path "/"
+			(page "1")
+		)
+	)
+	(embedded_fonts no)
+)
