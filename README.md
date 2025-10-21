@@ -21,3 +21,26 @@ This project is written **without HAL**, using only direct register access and m
 | **SSD1306 OLED** | I²C | 128×64 display for UI |
 | **Rotary Encoder** | GPIO / TIM2 Encoder Mode | Volume & menu control |
 | **Buttons (3)** | GPIO / EXTI | Play/Pause, Next, Previous |
+
+---
+
+## STM32G031K8 Nucleo Pinout
+
+| Function        | Description            | STM32 Pin | Notes |
+|-----------------|-----------------------|------------|-------|
+| **SPI1_SCK**    | SPI Clock              | `PA5`      | Shared SPI bus |
+| **SPI1_MISO**   | SPI Data In            | `PA6`      | Shared SPI bus |
+| **SPI1_MOSI**   | SPI Data Out           | `PA7`      | Shared SPI bus |
+| **XDCS**        | VS1053B Data Select    | `PA15`     | Active low |
+| **MP3_CS**      | VS1053B Command Select | `PB0`      | Active low |
+| **SD_CS**       | SD Card Chip Select    | `PB9`      | Active low |
+| **DREQ**        | VS1053B Data Request   | `PB1`      | Input (VS1053 → MCU) |
+| **ENC_R**       | Rotary Encoder A       | `PA1`      | TIM2_CH2 (optional encoder mode) |
+| **ENC_L**       | Rotary Encoder B       | `PA2`      | TIM2_CH3 (optional encoder mode) |
+| **BTN_PLAY**    | Play / Pause Button    | `PB3`      | Active low |
+| **BTN_NEXT**    | Next Track Button      | `PB5`      | Active low |
+| **BTN_BACK**    | Previous Track Button  | `PB4`      | Active low |
+| **OLED_SCL**    | SSD1306 I²C Clock      | `PB6`      | I²C1 SCL |
+| **OLED_SDA**    | SSD1306 I²C Data       | `PB7`      | I²C1 SDA |
+| **GND**         | Ground                 | —          | Common ground |
+| **3V3**         | Power Supply           | —          | 3.3 V logic |
