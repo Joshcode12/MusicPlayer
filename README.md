@@ -36,7 +36,7 @@ This project is written **without HAL**, using only direct register access and m
 | **SD_CS**       | SD Card Chip Select    | `PB9`      | Active low |
 | **DREQ**        | VS1053B Data Request   | `PB1`      | Input (VS1053 → MCU) |
 | **ENC_R**       | Rotary Encoder A       | `PA1`      | TIM2_CH2 (optional encoder mode) |
-| **ENC_L**       | Rotary Encoder B       | `PA2`      | TIM2_CH3 (optional encoder mode) |
+| **ENC_L**       | Rotary Encoder B       | `PA0`      | TIM2_CH3 (optional encoder mode) |
 | **BTN_PLAY**    | Play / Pause Button    | `PB3`      | Active low |
 | **BTN_NEXT**    | Next Track Button      | `PB5`      | Active low |
 | **BTN_BACK**    | Previous Track Button  | `PB4`      | Active low |
