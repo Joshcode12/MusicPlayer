@@ -44,3 +44,8 @@ This project is written **without HAL**, using only direct register access and m
 | **OLED_SDA**    | SSD1306 I²C Data       | `PB7`      | I²C1 SDA |
 | **GND**         | Ground                 | —          | Common ground |
 | **3V3**         | Power Supply           | —          | 3.3 V logic |
+
+
+## Breadboard Schemantic
+
+<img width="620" height="469" alt="image" src="https://github.com/user-attachments/assets/c074f3db-2d77-4833-bb96-ed2c3429a1ca"/>
