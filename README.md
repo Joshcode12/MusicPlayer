@@ -1,11 +1,13 @@
-# STM32G031K8 Music Player (Bare-Metal)
+# STM32G031K8 Music Player
 
 A lightweight MP3 player built on the **STM32G031K8 NUCLEO**, featuring:
-- VS1053B MP3 decoder chip  
+- VS1053B music decoder chip  
 - SD card for file storage  
 - SSD1306 OLED display (I²C)  
 - Rotary encoder and 3 buttons for navigation  
 - File upload via ST-LINK Virtual COM Port (VCP)
+
+VS1053 and SD card are in the [Adafruit Music Maker FeatherWing mosdule](https://learn.adafruit.com/adafruit-music-maker-featherwing).
 
 This project is written **without HAL**, using only direct register access and minimal drivers.
 
