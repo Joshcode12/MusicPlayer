@@ -51,3 +51,7 @@ This project is written **without HAL**, using only direct register access and m
 ## Breadboard Schemantic
 
 <img width="620" height="469" alt="image" src="https://github.com/user-attachments/assets/c074f3db-2d77-4833-bb96-ed2c3429a1ca"/>
+
+## Breadboard image
+
+![Breadboard](https://github.com/user-attachments/assets/72c29fb1-5fe0-4c5f-a7e6-78cf8233aec3)
