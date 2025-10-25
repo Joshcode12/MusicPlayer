@@ -1,20 +1,15 @@
 /*********************************************************************
- * File: main.c
- * Purpose : Main entry point of the program
- * Author  : Joshua
+ * @file    main.c
+ * @brief   Main entry point for STM32G031K8T6 firmware
+ * @author  Joshua
+ * @date    2025-10-24
+ *
+ * @note    Target MCU: STM32G031K8T6
  *********************************************************************/
 
-#include <stdio.h>
-
 /**
- * @brief Main entry point of the program
+ * @brief  Main program entry point
  */
-int main(void) {
-  int i;
-
-  for (i = 0; i < 100; i++) {
-    printf("Hello World %d!\n", i + 1);
-  }
+int main(void)
+{
 }
-
-/*************************** End of file ****************************/

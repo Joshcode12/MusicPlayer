@@ -3,20 +3,15 @@
   <configuration
     Name="Debug"
     c_preprocessor_definitions="DEBUG"
+    debug_target_connection="ST-Link"
     gcc_debugging_level="Level 3"
     gcc_omit_frame_pointer="Yes"
     gcc_optimization_level="None" />
-  <configuration
-    Name="Release"
-    c_preprocessor_definitions="NDEBUG"
-    gcc_debugging_level="Level 2"
-    gcc_omit_frame_pointer="Yes"
-    gcc_optimization_level="Level 2 balanced" />
   <project Name="MusicPlayerFirmware">
     <configuration
       LIBRARY_IO_TYPE="RTT"
       Name="Common"
-      Target="STM32G0B1RETx"
+      Target="STM32G031K8Tx"
       arm_architecture="v6M"
       arm_compiler_variant="SEGGER"
       arm_core_type="Cortex-M0+"
@@ -27,22 +22,22 @@
       arm_linker_process_stack_size="0"
       arm_linker_stack_size="2048"
       arm_linker_variant="SEGGER"
-      arm_simulator_memory_simulation_parameter="ROM;0x08000000;0x00080000;RAM;0x20000000;0x00024000"
-      arm_target_device_name="STM32G0B1RE"
-      c_preprocessor_definitions="ARM_MATH_CM0PLUS;STM32G0B1xx;__STM32G0B1_SUBFAMILY;__STM32G0XX_FAMILY;__NO_FPU_ENABLE"
-      c_user_include_directories="$(ProjectDir)/CMSIS_5/CMSIS/Core/Include;C:\\Users\\srrea\\PersonalProjects\\MiscResources\\Libraries\\Stm32G031K8T6Lib;$(ProjectDir)/lib;$(ProjectDir)/STM32G0xx/Device/Include"
-      debug_register_definition_file="$(ProjectDir)/STM32G0B1_Registers.xml"
+      arm_simulator_memory_simulation_parameter="ROM;0x08000000;0x00010000;RAM;0x20000000;0x00002000"
+      arm_target_device_name="STM32G031K8"
+      arm_target_interface_type="SWD"
+      c_preprocessor_definitions="ARM_MATH_CM0PLUS;STM32G031xx;__STM32G031_SUBFAMILY;__STM32G0XX_FAMILY;__NO_FPU_ENABLE"
+      c_user_include_directories="$(ProjectDir)/CMSIS_5/CMSIS/Core/Include;$(ProjectDir)/lib;$(ProjectDir)/STM32G0xx/Device/Include"
+      debug_register_definition_file="$(ProjectDir)/STM32G031_Registers.xml"
       debug_stack_pointer_start="__stack_end__"
       debug_start_from_entry_point_symbol="Yes"
       debug_target_connection="J-Link"
       gcc_entry_point="Reset_Handler"
       link_linker_script_file="$(ProjectDir)/STM32G0xx_Flash.icf"
-      linker_memory_map_file="$(ProjectDir)/STM32G0B1RETx_MemoryMap.xml"
-      linker_printf_fp_enabled="Float"
-      linker_scanf_fp_enabled="No"
-      macros="DeviceHeaderFile=$(PackagesDir)/STM32G0xx/Device/Include/stm32g0xx.h;DeviceSystemFile=$(PackagesDir)/STM32G0xx/Device/Source/system_stm32g0xx.c;DeviceVectorsFile=$(PackagesDir)/STM32G0xx/Source/stm32g0b1xx_Vectors.s;DeviceFamily=STM32G0xx;DeviceSubFamily=STM32G0B1;Target=STM32G0B1RETx"
+      linker_memory_map_file="$(ProjectDir)/STM32G031K8Tx_MemoryMap.xml"
+      macros="DeviceHeaderFile=$(PackagesDir)/STM32G0xx/Device/Include/stm32g0xx.h;DeviceSystemFile=$(PackagesDir)/STM32G0xx/Device/Source/system_stm32g0xx.c;DeviceVectorsFile=$(PackagesDir)/STM32G0xx/Source/stm32g031xx_Vectors.s;DeviceFamily=STM32G0xx;DeviceSubFamily=STM32G031;Target=STM32G031K8Tx"
       project_directory=""
-      project_type="Executable" />
+      project_type="Executable"
+      target_reset_script="Reset();" />
     <configuration
       Name="Debug"
       Target="STM32G031K8Tx"
@@ -52,7 +47,7 @@
       arm_fp_abi="Soft"
       arm_fpu_type="None"
       arm_simulator_memory_simulation_parameter="ROM;0x08000000;0x00010000;RAM;0x20000000;0x00002000"
-      arm_stm32cubeprogrammer_directory="$(STM32CUBEPROGDIRC:\Program Files\STMicroelectronics\STM32Cube\STM32CubeProgrammer"
+      arm_stm32cubeprogrammer_directory="C:\Program Files\STMicroelectronics\STM32Cube\STM32CubeProgrammer"
       arm_target_device_name="STM32G031K8"
       debug_register_definition_file="$(PackagesDir)/STM32G0xx/XML/STM32G031_Registers.xml"
       debug_target_connection="ST-Link"
@@ -67,6 +62,7 @@
           default_const_section=".init_rodata" />
       </file>
     </folder>
+    <folder Name="lib" exclude="" filter="" path="lib" recurse="No" />
     <folder Name="Script Files">
       <file file_name="STM32G0xx/Scripts/STM32G0xx_Target.js">
         <configuration Name="Common" file_type="Reset Script" />
@@ -78,7 +74,7 @@
     </folder>
     <folder Name="System Files">
       <file file_name="SEGGER_THUMB_Startup.s" />
-      <file file_name="STM32G0xx/Source/stm32g0b1xx_Vectors.s">
+      <file file_name="STM32G0xx/Source/stm32g031xx_Vectors.s">
         <configuration Name="Common" file_type="Assembly" />
       </file>
       <file file_name="STM32G0xx/Source/STM32G0xx_Startup.s" />

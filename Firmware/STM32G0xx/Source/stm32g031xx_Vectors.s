@@ -36,8 +36,8 @@
 
 -------------------------- END-OF-HEADER -----------------------------
 
-File      : stm32g0b1xx_Vectors.s
-Purpose   : Exception and interrupt vectors for stm32g0b1xx devices.
+File      : stm32g031xx_Vectors.s
+Purpose   : Exception and interrupt vectors for stm32g031xx devices.
 
 Additional information:
   Preprocessor Definitions
@@ -199,36 +199,35 @@ _vectors:
         //
 #ifndef __NO_EXTERNAL_INTERRUPTS
         ISR_HANDLER WWDG_IRQHandler
-        ISR_HANDLER PVD_VDDIO2_IRQHandler
+        ISR_HANDLER PVD_IRQHandler
         ISR_HANDLER RTC_TAMP_IRQHandler
         ISR_HANDLER FLASH_IRQHandler
-        ISR_HANDLER RCC_CRS_IRQHandler
+        ISR_HANDLER RCC_IRQHandler
         ISR_HANDLER EXTI0_1_IRQHandler
         ISR_HANDLER EXTI2_3_IRQHandler
         ISR_HANDLER EXTI4_15_IRQHandler
-        ISR_HANDLER USB_UCPD1_2_IRQHandler
+        ISR_RESERVED
         ISR_HANDLER DMA1_Channel1_IRQHandler
         ISR_HANDLER DMA1_Channel2_3_IRQHandler
-        ISR_HANDLER DMA1_Ch4_7_DMA2_Ch1_5_DMAMUX1_OVR_IRQHandler
-        ISR_HANDLER ADC1_COMP_IRQHandler
+        ISR_HANDLER DMA1_Ch4_5_DMAMUX1_OVR_IRQHandler
+        ISR_HANDLER ADC1_IRQHandler
         ISR_HANDLER TIM1_BRK_UP_TRG_COM_IRQHandler
         ISR_HANDLER TIM1_CC_IRQHandler
         ISR_HANDLER TIM2_IRQHandler
-        ISR_HANDLER TIM3_TIM4_IRQHandler
-        ISR_HANDLER TIM6_DAC_LPTIM1_IRQHandler
-        ISR_HANDLER TIM7_LPTIM2_IRQHandler
+        ISR_HANDLER TIM3_IRQHandler
+        ISR_HANDLER LPTIM1_IRQHandler
+        ISR_HANDLER LPTIM2_IRQHandler
         ISR_HANDLER TIM14_IRQHandler
-        ISR_HANDLER TIM15_IRQHandler
-        ISR_HANDLER TIM16_FDCAN_IT0_IRQHandler
-        ISR_HANDLER TIM17_FDCAN_IT1_IRQHandler
+        ISR_RESERVED
+        ISR_HANDLER TIM16_IRQHandler
+        ISR_HANDLER TIM17_IRQHandler
         ISR_HANDLER I2C1_IRQHandler
-        ISR_HANDLER I2C2_3_IRQHandler
+        ISR_HANDLER I2C2_IRQHandler
         ISR_HANDLER SPI1_IRQHandler
-        ISR_HANDLER SPI2_3_IRQHandler
+        ISR_HANDLER SPI2_IRQHandler
         ISR_HANDLER USART1_IRQHandler
-        ISR_HANDLER USART2_LPUART2_IRQHandler
-        ISR_HANDLER USART3_4_5_6_LPUART1_IRQHandler
-        ISR_HANDLER CEC_IRQHandler
+        ISR_HANDLER USART2_IRQHandler
+        ISR_HANDLER LPUART1_IRQHandler
 #endif
         //
         .section .vectors, "ax"
