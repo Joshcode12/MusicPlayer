@@ -68,3 +68,9 @@ void GPIO_EnablePin(GPIO_TypeDef *port, uint8_t pin, GPIOOType otype, GPIOMode m
  * @brief Writes a digital value to a GPIO pin
  */
 void GPIO_Write(GPIO_TypeDef *port, uint8_t pin, uint8_t value);
+
+/**
+ * @brief Get the pin level
+ * @returns Pin state. (1 = High, 0 = low)
+ */
+uint8_t GPIO_Read(GPIO_TypeDef *port, uint8_t pin);

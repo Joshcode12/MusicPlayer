@@ -47,3 +47,8 @@ void GPIO_Write(GPIO_TypeDef *port, uint8_t pin, uint8_t value)
 {
     port->BSRR = (1 << pin) << (value ? 0 : 16);
 }
+
+uint8_t GPIO_Read(GPIO_TypeDef *port, uint8_t pin)
+{
+    return (port->IDR & (1 << pin)) ? 1 : 0;
+}
