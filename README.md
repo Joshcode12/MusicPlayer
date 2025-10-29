@@ -28,30 +28,35 @@ This project is written **without HAL**, using only direct register access and m
 
 ## STM32G031K8 Nucleo Pinout
 
-| Function        | Description            | STM32 Pin | Notes |
-|-----------------|-----------------------|------------|-------|
-| **SPI1_SCK**    | SPI Clock              | `PA5`      | Shared SPI bus |
-| **SPI1_MISO**   | SPI Data In            | `PA6`      | Shared SPI bus |
-| **SPI1_MOSI**   | SPI Data Out           | `PA7`      | Shared SPI bus |
-| **XDCS**        | VS1053B Data Select    | `PA15`     | Active low |
-| **MP3_CS**      | VS1053B Command Select | `PB0`      | Active low |
-| **SD_CS**       | SD Card Chip Select    | `PB9`      | Active low |
-| **DREQ**        | VS1053B Data Request   | `PB1`      | Input (VS1053 → MCU) |
-| **ENC_R**       | Rotary Encoder A       | `PA1`      | TIM2_CH2 (optional encoder mode) |
-| **ENC_L**       | Rotary Encoder B       | `PA0`      | TIM2_CH3 (optional encoder mode) |
-| **BTN_PLAY**    | Play / Pause Button    | `PB3`      | Active low |
-| **BTN_NEXT**    | Next Track Button      | `PB5`      | Active low |
-| **BTN_BACK**    | Previous Track Button  | `PB4`      | Active low |
-| **OLED_SCL**    | SSD1306 I²C Clock      | `PB6`      | I²C1 SCL |
-| **OLED_SDA**    | SSD1306 I²C Data       | `PB7`      | I²C1 SDA |
-| **GND**         | Ground                 | —          | Common ground |
-| **3V3**         | Power Supply           | —          | 3.3 V logic |
+| Function        | Description            | STM32 Pin | Notes                            |
+| --------------- | ---------------------- | --------- | -------------------------------- |
+| **SPI1_SCK**    | SPI Clock              | `PA5`     | Shared SPI bus                   |
+| **SPI1_MISO**   | SPI Data In            | `PA6`     | Shared SPI bus                   |
+| **SPI1_MOSI**   | SPI Data Out           | `PA7`     | Shared SPI bus                   |
+| **XDCS**        | VS1053B Data Select    | `PA15`    | Active low                       |
+| **MP3_CS**      | VS1053B Command Select | `PB0`     | Active low                       |
+| **SD_CS**       | SD Card Chip Select    | `PB9`     | Active low                       |
+| **DREQ**        | VS1053B Data Request   | `PB1`     | Input (VS1053 → MCU)             |
+| **ENC_R**       | Rotary Encoder A       | `PA1`     | TIM2_CH2 (optional encoder mode) |
+| **ENC_L**       | Rotary Encoder B       | `PA0`     | TIM2_CH3 (optional encoder mode) |
+| **BTN_PLAY**    | Play / Pause Button    | `PB3`     | Active low                       |
+| **BTN_NEXT**    | Next Track Button      | `PB5`     | Active low                       |
+| **BTN_BACK**    | Previous Track Button  | `PB4`     | Active low                       |
+| **OLED_SCL**    | SSD1306 I²C Clock      | `PB6`     | I²C1 SCL                         |
+| **OLED_SDA**    | SSD1306 I²C Data       | `PB7`     | I²C1 SDA                         |
+| **LED_PAUSED**  | Playback Paused LED    | `PB2`     | ON when paused                   |
+| **LED_PLAYING** | Playback Active LED    | `PB8`     | ON when playing                  |
+| **GND**         | Ground                 | —         | Common ground                    |
+| **3V3**         | Power Supply           | —         | 3.3 V logic                      |
 
+---
 
 ## Breadboard Schemantic
 
-<img width="620" height="469" alt="image" src="https://github.com/user-attachments/assets/c074f3db-2d77-4833-bb96-ed2c3429a1ca"/>
+<img width="3300" height="2550" alt="image" src="https://github.com/user-attachments/assets/b759768f-c774-4ba0-9978-6a0df93a261f" />
+
+---
 
 ## Breadboard image
 
-![Breadboard](https://github.com/user-attachments/assets/72c29fb1-5fe0-4c5f-a7e6-78cf8233aec3)
+![20251029_160259](https://github.com/user-attachments/assets/0bd344e6-23b0-4e7c-91ee-bad7e1fd07f4)
