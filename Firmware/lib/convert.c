@@ -7,34 +7,28 @@
 
 #include "convert.h"
 
-uint32_t BinToDec(uint32_t bin)
-{
-    uint32_t result = 0;
-    uint32_t multiplier = 1;
+uint32_t BinToDec(uint64_t bin) {
+  uint32_t result     = 0;
+  uint32_t multiplier = 1;
+  while (bin > 0) {
+    if (bin % 10)
+      result += multiplier;
+    multiplier <<= 1;
+    bin /= 10;
+  }
 
-    while (bin > 0)
-    {
-        if (bin % 10)
-            result += multiplier;
-        multiplier <<= 1;
-        bin /= 10;
-    }
-
-    return result;
+  return result;
 }
 
-uint32_t DecToBin(uint32_t dec)
-{
-    uint32_t result = 0;
-    uint32_t place = 1;
+uint64_t DecToBin(uint32_t dec) {
+  uint64_t result = 0;
+  uint64_t place  = 1;
 
-    while (dec > 0)
-    {
-        if (dec & 1)
-            result += place;
-        place *= 10;
-        dec >>= 1;
-    }
-
-    return result;
+  while (dec > 0) {
+    if (dec & 1)
+      result += place;
+    place *= 10;
+    dec >>= 1;
+  }
+  return result;
 }

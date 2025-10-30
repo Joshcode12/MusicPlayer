@@ -12,9 +12,9 @@
 /**
  * @brief Converts binary
  */
-uint32_t BinToDec(uint32_t bin);
+uint32_t BinToDec(uint64_t bin);
 
 /**
  * @brief Converts decimal to binary
  */
-uint32_t DecToBin(uint32_t dec);
+uint64_t DecToBin(uint32_t dec);

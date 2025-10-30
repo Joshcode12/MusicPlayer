@@ -14,45 +14,32 @@
 /**
  * @brief GPIO pin mode types
  */
-typedef enum
-{
-    GPIO_MODE_INPUT,
-    GPIO_MODE_OUTPUT,
-    GPIO_MODE_AF,
-    GPIO_MODE_ANALOG
+typedef enum {
+  GPIO_MODE_INPUT,
+  GPIO_MODE_OUTPUT,
+  GPIO_MODE_AF,       ///< Pin mode alternative function
+  GPIO_MODE_ANALOG    ///< Pin mode analog
 } GPIOMode;
 
 /**
  * @brief GPIO output type
  */
-typedef enum
-{
-    GPIO_OTYPE_PP,
-    GPIO_OTYPE_OD
+typedef enum {
+  GPIO_OTYPE_PP,    ///< GPIO output type push-pull
+  GPIO_OTYPE_OD     ///< GPIO output type open drain
 } GPIOOType;
 
 /**
  * @brief GPIO output speed
  */
-typedef enum
-{
-    GPIO_SPEED_LOW,
-    GPIO_SPEED_MEDIUM,
-    GPIO_SPEED_HIGH,
-    GPIO_SPEED_VERY_HIGH
-} GPIOSpeed;
+typedef enum { GPIO_SPEED_LOW, GPIO_SPEED_MEDIUM, GPIO_SPEED_HIGH, GPIO_SPEED_VERY_HIGH } GPIOSpeed;
 
 /**
  * @brief GPIO pull resistor configuration
  *
  * Defines internal pull-up or pull-down resistors for input pins.
  */
-typedef enum
-{
-    GPIO_NOPULL,
-    GPIO_PULLUP,
-    GPIO_PULLDOWN
-} GPIOPull;
+typedef enum { GPIO_NOPULL, GPIO_PULLUP, GPIO_PULLDOWN } GPIOPull;
 
 /**
  * @brief Enables the clock for a given GPIO port
@@ -68,6 +55,11 @@ void GPIO_EnablePin(GPIO_TypeDef *port, uint8_t pin, GPIOOType otype, GPIOMode m
  * @brief Writes a digital value to a GPIO pin
  */
 void GPIO_Write(GPIO_TypeDef *port, uint8_t pin, uint8_t value);
+
+/**
+ * @brief Toggle the pin level
+ */
+void GPIO_Toggle(GPIO_TypeDef *port, uint8_t pin);
 
 /**
  * @brief Get the pin level

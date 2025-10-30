@@ -1,0 +1,368 @@
+    40021000    .word 0x40021000
+    4002100C    .word 0x4002100C
+    1FFF808C    .word 0x1FFF808C
+--- clock.c -- 67 ------------------------------------------
+;
+return true;
+}
+bool Clock_SetSystemClock(ClockSource source) {
+    B083        sub sp, sp, #12
+    4601        mov r1, r0
+    A801        add r0, sp, #4
+    7001        strb r1, [r0]
+--- clock.c -- 72 ------------------------------------------
+switch (source) {
+    7800        ldrb r0, [r0]
+    9000        str r0, [sp]
+    2800        cmp r0, #0
+    D003        beq 0x08000374
+    9800        ldr r0, [sp]
+    2801        cmp r0, #1
+    D00A        beq 0x08000388
+    E013        b 0x0800039C
+--- clock.c -- 73 ------------------------------------------
+case CLOCK_SRC_HSI:
+if (!(RCC->CR & RCC_CR_HSIRDY))
+    4814        ldr r0, =0x40021000
+    6800        ldr r0, [r0]
+    0540        lsls r0, r0, #21
+    2800        cmp r0, #0
+    D403        bmi 0x08000386
+    A902        add r1, sp, #8
+--- clock.c -- 75 ------------------------------------------
+return false;
+    2000        movs r0, #0
+    7008        strb r0, [r1]
+    E01B        b 0x080003BE
+--- clock.c -- 76 ------------------------------------------
+break;
+    E00D        b 0x080003A4
+--- clock.c -- 77 ------------------------------------------
+case CLOCK_SRC_PLL:
+if (!(RCC->CR & RCC_CR_PLLRDY))
+    480F        ldr r0, =0x40021000
+    6800        ldr r0, [r0]
+    0180        lsls r0, r0, #6
+    2800        cmp r0, #0
+    D403        bmi 0x0800039A
+    A902        add r1, sp, #8
+--- clock.c -- 79 ------------------------------------------
+return false;
+    2000        movs r0, #0
+    7008        strb r0, [r1]
+    E011        b 0x080003BE
+--- clock.c -- 80 ------------------------------------------
+break;
+    E003        b 0x080003A4
+    A902        add r1, sp, #8
+--- clock.c -- 81 ------------------------------------------
+default:
+return false;
+    2000        movs r0, #0
+    7008        strb r0, [r1]
+    E00C        b 0x080003BE
+--- clock.c -- 83 ------------------------------------------
+}
+while ((RCC->CFGR & RCC_CFGR_SWS) != (RCC->CFGR & RCC_CFGR_SW))
+    4909        ldr r1, =0x40021008
+    6808        ldr r0, [r1]
+    2238        movs r2, #0x38
+    4010        ands r0, r2
+    6809        ldr r1, [r1]
+    2207        movs r2, #7
+    4011        ands r1, r2
+    4288        cmp r0, r1
+    D000        beq 0x080003B8
+    E7F5        b 0x080003A4
+    A902        add r1, sp, #8
+--- clock.c -- 85 ------------------------------------------
+;
+// Clock_AdjustFlashLatency(g_clockStatus.sysclk_hz);
+return true;
+    2001        movs r0, #1
+    7008        strb r0, [r1]
+    A802        add r0, sp, #8
+--- clock.c -- 88 ------------------------------------------
+}
+    7800        ldrb r0, [r0]
+    B003        add sp, sp, #12
+    4770        bx lr
+    46C0        nop
+    40021000    .word 0x40021000
+    40021008    .word 0x40021008
+--- gpio.c -- 6 --------------------------------------------
+*/
+#include "gpio.h"
+void GPIO_EnablePort(GPIO_TypeDef *port) {
+    B081        sub sp, sp, #4
+    9000        str r0, [sp]
+--- gpio.c -- 11 -------------------------------------------
+if (port == GPIOA)
+    9800        ldr r0, [sp]
+    2105        movs r1, #5
+    0709        lsls r1, r1, #28
+    4288        cmp r0, r1
+    D105        bne 0x080003EA
+--- gpio.c -- 12 -------------------------------------------
+RCC->IOPENR |= RCC_IOPENR_GPIOAEN;
+    491B        ldr r1, =0x40021034
+    6808        ldr r0, [r1]
+    2201        movs r2, #1
+    4310        orrs r0, r2
+    6008        str r0, [r1]
+    E026        b 0x08000438
+--- gpio.c -- 13 -------------------------------------------
+else if (port == GPIOB)
+    9800        ldr r0, [sp]
+    4913        ldr r1, =0x50000400
+    4288        cmp r0, r1
+    D105        bne 0x080003FE
+--- gpio.c -- 14 -------------------------------------------
+RCC->IOPENR |= RCC_IOPENR_GPIOBEN;
+    4916        ldr r1, =0x40021034
+    6808        ldr r0, [r1]
+    2202        movs r2, #2
+    4310        orrs r0, r2
+    6008        str r0, [r1]
+    E01C        b 0x08000438
+--- gpio.c -- 15 -------------------------------------------
+else if (port == GPIOC)
+    9800        ldr r0, [sp]
+    490F        ldr r1, =0x50000800
+    4288        cmp r0, r1
+    D105        bne 0x08000412
+--- gpio.c -- 16 -------------------------------------------
+RCC->IOPENR |= RCC_IOPENR_GPIOCEN;
+    4911        ldr r1, =0x40021034
+    6808        ldr r0, [r1]
+    2204        movs r2, #4
+    4310        orrs r0, r2
+    6008        str r0, [r1]
+    E012        b 0x08000438
+--- gpio.c -- 17 -------------------------------------------
+else if (port == GPIOD)
+    9800        ldr r0, [sp]
+    490B        ldr r1, =0x50000C00
+    4288        cmp r0, r1
+    D105        bne 0x08000426
+--- gpio.c -- 18 -------------------------------------------
+RCC->IOPENR |= RCC_IOPENR_GPIODEN;
+    490C        ldr r1, =0x40021034
+    6808        ldr r0, [r1]
+    2208        movs r2, #8
+    4310        orrs r0, r2
+    6008        str r0, [r1]
+    E008        b 0x08000438
+--- gpio.c -- 19 -------------------------------------------
+else if (port == GPIOF)
+    9800        ldr r0, [sp]
+    4907        ldr r1, =0x50001400
+    4288        cmp r0, r1
+    D104        bne 0x08000438
+--- gpio.c -- 20 -------------------------------------------
+RCC->IOPENR |= RCC_IOPENR_GPIOFEN;
+    4907        ldr r1, =0x40021034
+    6808        ldr r0, [r1]
+    2220        movs r2, #32
+    4310        orrs r0, r2
+    6008        str r0, [r1]
+--- gpio.c -- 21 -------------------------------------------
+}
+    B001        add sp, sp, #4
+    4770        bx lr
+    50000400    .word 0x50000400
+    50000800    .word 0x50000800
+    50000C00    .word 0x50000C00
+    50001400    .word 0x50001400
+    40021034    .word 0x40021034
+--- main.c -- 20 -------------------------------------------
+/**
+* @brief Main program entry point
+*/
+int main(void) {
+    B500        push {lr}
+    B08F        sub sp, sp, #0x3C
+    2000        movs r0, #0
+    9009        str r0, [sp, #0x24]
+    900E        str r0, [sp, #0x38]
+    A80D        add r0, sp, #0x34
+--- main.c -- 25 -------------------------------------------
+Clock_InitPLL(&(PLLConfig){.pll_m = 1, .pll_n = 8, .pll_r = 2});
+    2101        movs r1, #1
+    9107        str r1, [sp, #28]
+    7001        strb r1, [r0]
+    2108        movs r1, #8
+    9103        str r1, [sp, #12]
+    7041        strb r1, [r0, #1]
+    2102        movs r1, #2
+    9106        str r1, [sp, #24]
+    7081        strb r1, [r0, #2]
+    F7FFFEFD    bl 0x0800026C <Clock_InitPLL>
+--- main.c -- 26 -------------------------------------------
+Clock_SetSystemClock(CLOCK_SRC_PLL);
+    9807        ldr r0, [sp, #28]
+    F7FFFF72    bl 0x0800035C <Clock_SetSystemClock>
+    9906        ldr r1, [sp, #24]
+    9B07        ldr r3, [sp, #28]
+    9A09        ldr r2, [sp, #0x24]
+--- main.c -- 27 -------------------------------------------
+GPIO_EnablePin(GPIOB, 2, GPIO_OTYPE_PP, GPIO_MODE_OUTPUT, GPIO_SPEED_MEDIUM, GPIO_NOPULL);
+    9201        str r2, [sp, #4]
+    9300        str r3, [sp]
+    482C        ldr r0, =0x50000400
+    9008        str r0, [sp, #32]
+    F000F89C    bl 0x080005C2 <GPIO_EnablePin>
+    9906        ldr r1, [sp, #24]
+    9A07        ldr r2, [sp, #28]
+    9808        ldr r0, [sp, #32]
+--- main.c -- 29 -------------------------------------------
+GPIO_Write(GPIOB, 2, 1);
+    F000F930    bl 0x080006F4 <GPIO_Write>
+    9903        ldr r1, [sp, #12]
+    9B07        ldr r3, [sp, #28]
+    9808        ldr r0, [sp, #32]
+    9A09        ldr r2, [sp, #0x24]
+--- main.c -- 30 -------------------------------------------
+GPIO_EnablePin(GPIOB, 8, GPIO_OTYPE_PP, GPIO_MODE_OUTPUT, GPIO_SPEED_MEDIUM, GPIO_NOPULL);
+    9201        str r2, [sp, #4]
+    9300        str r3, [sp]
+    F000F88F    bl 0x080005C2 <GPIO_EnablePin>
+    9903        ldr r1, [sp, #12]
+    9808        ldr r0, [sp, #32]
+    9A09        ldr r2, [sp, #0x24]
+--- main.c -- 32 -------------------------------------------
+GPIO_Write(GPIOB, 8, 0);
+    F000F923    bl 0x080006F4 <GPIO_Write>
+    9B07        ldr r3, [sp, #28]
+    9A09        ldr r2, [sp, #0x24]
+--- main.c -- 33 -------------------------------------------
+GPIO_EnablePin(GPIOC, 6, GPIO_OTYPE_PP, GPIO_MODE_OUTPUT, GPIO_SPEED_MEDIUM, GPIO_NOPULL);
+    9201        str r2, [sp, #4]
+    9300        str r3, [sp]
+    4820        ldr r0, =0x50000800
+    9004        str r0, [sp, #16]
+    2106        movs r1, #6
+    9105        str r1, [sp, #20]
+    F000F880    bl 0x080005C2 <GPIO_EnablePin>
+    9804        ldr r0, [sp, #16]
+    9905        ldr r1, [sp, #20]
+    9A09        ldr r2, [sp, #0x24]
+--- main.c -- 35 -------------------------------------------
+GPIO_Write(GPIOC, 6, 0);
+    F000F914    bl 0x080006F4 <GPIO_Write>
+    9A06        ldr r2, [sp, #24]
+    9907        ldr r1, [sp, #28]
+    9808        ldr r0, [sp, #32]
+    9B09        ldr r3, [sp, #0x24]
+--- main.c -- 36 -------------------------------------------
+GPIO_EnablePin(GPIOB, 3, GPIO_OTYPE_PP, GPIO_MODE_INPUT, GPIO_SPEED_MEDIUM, GPIO_PULLDOWN);
+    9201        str r2, [sp, #4]
+    9100        str r1, [sp]
+    2103        movs r1, #3
+    461A        mov r2, r3
+    F000F871    bl 0x080005C2 <GPIO_EnablePin>
+    9809        ldr r0, [sp, #0x24]
+    A90C        add r1, sp, #0x30
+--- main.c -- 38 -------------------------------------------
+uint8_t prev_input = 0;
+    7008        strb r0, [r1]
+    A90B        add r1, sp, #0x2C
+--- main.c -- 40 -------------------------------------------
+uint8_t output_state = 0;
+    7008        strb r0, [r1]
+    4812        ldr r0, =0x50000400
+    2103        movs r1, #3
+--- main.c -- 41 -------------------------------------------
+while (1) {
+uint8_t current_input = GPIO_Read(GPIOB, 3);
+    F000F8D2    bl 0x08000696 <GPIO_Read>
+    4601        mov r1, r0
+    A80A        add r0, sp, #0x28
+    7001        strb r1, [r0]
+--- main.c -- 44 -------------------------------------------
+if (current_input == 1 && prev_input == 0) {
+    7800        ldrb r0, [r0]
+    2801        cmp r0, #1
+    D10D        bne 0x0800051A
+    A80C        add r0, sp, #0x30
+    7800        ldrb r0, [r0]
+    2800        cmp r0, #0
+    D109        bne 0x0800051A
+--- main.c -- 46 -------------------------------------------
+output_state ^= 1;
+    990B        ldr r1, [sp, #0x2C]
+    2001        movs r0, #1
+    4041        eors r1, r0
+    A80B        add r0, sp, #0x2C
+    7001        strb r1, [r0]
+--- main.c -- 47 -------------------------------------------
+GPIO_Write(GPIOC, 6, output_state);
+    7802        ldrb r2, [r0]
+    4809        ldr r0, =0x50000800
+    2106        movs r1, #6
+    F000F8ED    bl 0x080006F4 <GPIO_Write>
+--- main.c -- 48 -------------------------------------------
+}
+prev_input = current_input;
+    980A        ldr r0, [sp, #0x28]
+    A90C        add r1, sp, #0x30
+    7008        strb r0, [r1]
+    4804        ldr r0, =0x50000400
+    9002        str r0, [sp, #8]
+    2102        movs r1, #2
+--- main.c -- 51 -------------------------------------------
+GPIO_Toggle(GPIOB, 2);
+    F000F8A9    bl 0x0800067C <GPIO_Toggle>
+    9802        ldr r0, [sp, #8]
+    2108        movs r1, #8
+--- main.c -- 52 -------------------------------------------
+GPIO_Toggle(GPIOB, 8);
+    F000F8A5    bl 0x0800067C <GPIO_Toggle>
+--- main.c -- 42 -------------------------------------------
+while (1) {
+    E7DA        b 0x080004EA
+    50000400    .word 0x50000400
+    50000800    .word 0x50000800
+--- SEGGER_THUMB_Startup.s -- 165 --------------------------
+// * Perform segment init
+// * Perform heap init (if used)
+// * Call constructors of global Objects (if any exist)
+//
+ldr R4, =__SEGGER_init_table__ // Set table pointer to start of initialization table
+    4C03        ldr r4, =0x08000748 <__SEGGER_init_table__>
+--- SEGGER_THUMB_Startup.s -- 170 --------------------------
+L(RunInit):
+ldr R0, [R4] // Get next initialization function from table
+    6820        ldr r0, [r4]
+--- SEGGER_THUMB_Startup.s -- 172 --------------------------
+adds R4, R4, #4 // Increment table pointer to point to function arguments
+    3404        adds r4, #4
+--- SEGGER_THUMB_Startup.s -- 173 --------------------------
+blx R0 // Call initialization function
+    4780        blx r0
+--- SEGGER_THUMB_Startup.s -- 174 --------------------------
+b L(RunInit)
+    E7FB        b 0x0800053E
+--- SEGGER_THUMB_Startup.s -- 183 --------------------------
+// In a real embedded application ("Free-standing environment"),
+// main() does not get any arguments,
+// which means it is not necessary to init R0 and R1.
+//
+bl APP_ENTRY_POINT // Call to application entry point (usually main())
+    F7FFFF83    bl 0x08000450 <main>
+--- SEGGER_THUMB_Startup.s -- 195 --------------------------
+//
+// In a free-standing environment, if returned from application:
+// Loop forever.
+//
+b .
+    E7FE        b 0x0800054A <exit>
+--- SEGGER_THUMB_Startup.s -- 169 --------------------------
+ldr R4, =__SEGGER_init_table__ // Set table pointer to start of initialization table
+    08000748    .word 0x08000748
+--- STM32G0xx_Startup.s -- 225 -----------------------------
+HardFault_Handler:
+//
+// Check if HardFault is caused by BKPT instruction
+//
+ldr R1, =0xE000ED2C // Load NVIC_HFSR
