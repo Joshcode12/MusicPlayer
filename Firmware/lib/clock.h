@@ -30,18 +30,18 @@ typedef enum {
 } ClockBase;
 
 /**
- * @brief Defines the HSIDIV values
+ * @brief Defines the divider values for HSIDIV and MCODIV
  */
 typedef enum {
-  HSI_DIV_BY_1,      // 16 MHz
-  HSI_DIV_BY_2,      // 8 MHz
-  HSI_DIV_BY_4,      // 4 MHz
-  HSI_DIV_BY_8,      // 2 MHz
-  HSI_DIV_BY_16,     // 1 MHz
-  HSI_DIV_BY_32,     // 500 kHz
-  HSI_DIV_BY_64,     // 250 kHz
-  HSI_DIV_BY_128,    // 125 kHz
-} ClockHSIDiv;
+  CLOCK_DIV_BY_1   = 0b000,
+  CLOCK_DIV_BY_2   = 0b001,
+  CLOCK_DIV_BY_4   = 0b010,
+  CLOCK_DIV_BY_8   = 0b011,
+  CLOCK_DIV_BY_16  = 0b100,
+  CLOCK_DIV_BY_32  = 0b101,
+  CLOCK_DIV_BY_64  = 0b110,
+  CLOCK_DIV_BY_128 = 0b111
+} ClockDiv;
 
 /**
  * @brief Defines the main system clock selector
@@ -62,7 +62,7 @@ typedef enum {
   MCO_SRC_HSI     = 0b0011,
   MCO_SRC_PLLRCLK = 0b0101,
   MCO_SRC_LSI     = 0b0110,
-  MCO_SRC_LSE     = 0b0111,
+  MCO_SRC_LSE     = 0b0111
 } MCOSource;
 
 /**
@@ -89,7 +89,7 @@ typedef struct {
  * @brief Initializes the HSIDIV to SYSCLK
  * @return true if initialization succeeds, false otherwise.
  */
-bool Clock_ConfigHSIDIV(ClockHSIDiv divider);
+bool Clock_ConfigHSIDIV(ClockDiv divider);
 
 /**
  * @brief Initializes and waits for the specified base clock source to be ready.
@@ -173,7 +173,7 @@ uint32_t Clock_GetPCLK(void);
  * Note:
  *  divider is 1-28 in steps of 2
  */
-bool Clock_EnableMCO(MCOSource source, uint8_t divider);
+bool Clock_EnableMCO(MCOSource source, ClockDiv divider);
 
 /**
  * Disables the MCO pin to output a specified clock.

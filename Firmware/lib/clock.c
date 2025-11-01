@@ -27,7 +27,7 @@ static volatile PowerMode currentPowerMode = POWER_MODE_ACTIVE;
 
 static uint32_t timeout = 0;
 
-bool Clock_ConfigHSIDIV(ClockHSIDiv divider) {
+bool Clock_ConfigHSIDIV(ClockDiv divider) {
   // if SYSCLK is not from HSIDIV
   if (((RCC->CFGR & RCC_CFGR_SWS) >> RCC_CFGR_SWS_Pos) != SYSCLK_SRC_HSISYS)
     return false;
@@ -348,32 +348,29 @@ uint32_t Clock_GetHCLK(void);
 
 uint32_t Clock_GetPCLK(void);
 
-bool Clock_EnableMCO(MCOSource source, uint8_t divider) {
-  if (divider < 0 || divider > 128 || divider % 2 != 0)
+bool Clock_EnableMCO(MCOSource source, ClockDiv divider) {
+  if (divider < CLOCK_DIV_BY_1 || divider > CLOCK_DIV_BY_128)
     return false;
 
   // Enable GPIOA clock
   RCC->IOPENR |= RCC_IOPENR_GPIOAEN;
 
-  // Configure PA8
-  GPIOA->MODER &= ~GPIO_MODER_MODE8_Msk;            // Clear mode bits
-  GPIOA->MODER |= (2UL << GPIO_MODER_MODE8_Pos);    // 0b10 = Alternate Function
-  GPIOA->AFR[1] &= ~GPIO_AFRH_AFSEL8_Msk;           // AF0 = MCO
-  // No pull-up/pull-down
-  GPIOA->PUPDR &= ~GPIO_PUPDR_PUPD8_Msk;
-  // Push-pull, high speed
-  GPIOA->OSPEEDR |= (3UL << GPIO_OSPEEDR_OSPEED8_Pos);
-  GPIOA->OTYPER &= ~GPIO_OTYPER_OT8;
-  // Set high speed for PA8
-  GPIOA->OSPEEDR |= (0b11 << GPIO_OSPEEDR_OSPEED8_Pos);
+  // Configure PA8 as Alternate Function mode
+  GPIOA->MODER &= ~GPIO_MODER_MODE8_Msk;
+  GPIOA->MODER |= (2U << GPIO_MODER_MODE8_Pos);    // Alternate function mode
 
-  for (volatile int i = 0; i < 10000; i++)
-    ;
+  // Set AF0 for MCO function on PA8
+  GPIOA->AFR[1] &= ~GPIO_AFRH_AFSEL8_Msk;
+  GPIOA->AFR[1] |= (0U << GPIO_AFRH_AFSEL8_Pos);    // AF0 = MCO
+
+  // Configure as push-pull, high speed, no pull-up/pull-down
+  GPIOA->OTYPER &= ~GPIO_OTYPER_OT8;                     // Push-pull
+  GPIOA->OSPEEDR |= (2U << GPIO_OSPEEDR_OSPEED8_Pos);    // High speed
+  GPIOA->PUPDR &= ~GPIO_PUPDR_PUPD8_Msk;                 // No pull-up/pull-down
 
   // Configure MCO source and divider
-  RCC->CFGR &= ~(RCC_CFGR_MCOSEL | RCC_CFGR_MCOPRE);
-  RCC->CFGR |=
-      ((source << RCC_CFGR_MCOSEL_Pos) & RCC_CFGR_MCOSEL) | ((divider << RCC_CFGR_MCOPRE_Pos) & RCC_CFGR_MCOPRE);
+  RCC->CFGR &= ~(RCC_CFGR_MCOSEL_Msk | RCC_CFGR_MCOPRE_Msk);
+  RCC->CFGR |= ((source << RCC_CFGR_MCOSEL_Pos) | (divider << RCC_CFGR_MCOPRE_Pos));
 
   return true;
 }
