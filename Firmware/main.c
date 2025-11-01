@@ -8,43 +8,29 @@
  *********************************************************************/
 
 #include <stdint.h>
-#include <stdio.h>
 
+#include "clock.h"
 #include "gpio.h"
 
-void delay_ms(uint32_t ms) {
+static void delay_ms(uint32_t ms) {
   volatile uint32_t i;
   for (i = 0; i < (ms * 1000); i++)
-    __asm__("nop");
+    __NOP();
 }
+
+ClockPLLConfig pll_cfg = {.pll_m = 1, .pll_n = 8, .pll_p = 2, .pll_q = 4, .pll_r = 2};
 
 /**
  * @brief  Main program entry point
  */
 int main(void) {
-  GPIO_EnablePin(GPIOB, 2, GPIO_OTYPE_PP, GPIO_MODE_OUTPUT, GPIO_SPEED_VERY_HIGH, GPIO_NOPULL);
+  GPIO_EnablePin(GPIOB, 2, GPIO_OTYPE_PP, GPIO_MODE_OUTPUT, GPIO_SPEED_MEDIUM, GPIO_PULLUP);
   GPIO_Write(GPIOB, 2, 1);
 
-  GPIO_EnablePin(GPIOB, 8, GPIO_OTYPE_PP, GPIO_MODE_OUTPUT, GPIO_SPEED_VERY_HIGH, GPIO_NOPULL);
+  GPIO_EnablePin(GPIOB, 8, GPIO_OTYPE_PP, GPIO_MODE_OUTPUT, GPIO_SPEED_MEDIUM, GPIO_PULLUP);
   GPIO_Write(GPIOB, 8, 0);
 
-  GPIO_EnablePin(GPIOC, 6, GPIO_OTYPE_PP, GPIO_MODE_OUTPUT, GPIO_SPEED_MEDIUM, GPIO_NOPULL);
-  GPIO_Write(GPIOC, 6, 0);
-
-  GPIO_EnablePin(GPIOB, 3, GPIO_OTYPE_PP, GPIO_MODE_INPUT, GPIO_SPEED_MEDIUM, GPIO_PULLDOWN);
-
-  uint8_t prev_input   = 0;
-  uint8_t output_state = 0;
-
   while (1) {
-    uint8_t current_input = GPIO_Read(GPIOB, 3);
-
-    if (current_input == 1 && prev_input == 0) {
-      output_state ^= 1;
-      GPIO_Write(GPIOC, 6, output_state);
-    }
-
-    prev_input = current_input;
     GPIO_Toggle(GPIOB, 2);
     GPIO_Toggle(GPIOB, 8);
     delay_ms(100);

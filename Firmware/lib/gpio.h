@@ -13,26 +13,32 @@
 
 /**
  * @brief GPIO pin mode types
+ * bad
  */
 typedef enum {
   GPIO_MODE_INPUT,
   GPIO_MODE_OUTPUT,
-  GPIO_MODE_AF,       ///< Pin mode alternative function
-  GPIO_MODE_ANALOG    ///< Pin mode analog
+  GPIO_MODE_AF,       // Pin mode alternative function
+  GPIO_MODE_ANALOG    // Pin mode analog
 } GPIOMode;
 
 /**
  * @brief GPIO output type
  */
 typedef enum {
-  GPIO_OTYPE_PP,    ///< GPIO output type push-pull
-  GPIO_OTYPE_OD     ///< GPIO output type open drain
+  GPIO_OTYPE_PP,    // GPIO output type push-pull
+  GPIO_OTYPE_OD     // GPIO output type open drain
 } GPIOOType;
 
 /**
  * @brief GPIO output speed
  */
-typedef enum { GPIO_SPEED_LOW, GPIO_SPEED_MEDIUM, GPIO_SPEED_HIGH, GPIO_SPEED_VERY_HIGH } GPIOSpeed;
+typedef enum {
+  GPIO_SPEED_LOW,
+  GPIO_SPEED_MEDIUM,
+  GPIO_SPEED_HIGH,
+  GPIO_SPEED_VERY_HIGH,
+} GPIOSpeed;
 
 /**
  * @brief GPIO pull resistor configuration
