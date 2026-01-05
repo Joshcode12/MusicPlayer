@@ -82,12 +82,12 @@ A standalone MP3 player built with STM32G031K8 microcontroller, featuring SD car
 ## Development Phases
 
 ### Phase 1: Basic Communication
-- [ ] GPIO and LED PWM test
-- [ ] Button input
+- [X] GPIO and LED PWM test
+- [X] Button input
 
 ### Phase 2: Peripherals
-- [ ] SSD1306 display initialization
-- [ ] Rotary encoder initialization and reading
+- [X] SSD1306 display initialization
+- [X] Rotary encoder initialization and reading
 - [ ] SD card mounting and file operations
 
 ### Phase 3: Audio
