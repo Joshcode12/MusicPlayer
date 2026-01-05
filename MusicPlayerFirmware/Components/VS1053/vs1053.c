@@ -8,15 +8,6 @@
 #include "spi.h"
 #include "stm32g0xx.h"
 
-#define SPI_BAUDRATEPRESCALER_2         (0x00000000U)
-#define SPI_BAUDRATEPRESCALER_4         (SPI_CR1_BR_0)
-#define SPI_BAUDRATEPRESCALER_8         (SPI_CR1_BR_1)
-#define SPI_BAUDRATEPRESCALER_16        (SPI_CR1_BR_1 | SPI_CR1_BR_0)
-#define SPI_BAUDRATEPRESCALER_32        (SPI_CR1_BR_2)
-#define SPI_BAUDRATEPRESCALER_64        (SPI_CR1_BR_2 | SPI_CR1_BR_0)
-#define SPI_BAUDRATEPRESCALER_128       (SPI_CR1_BR_2 | SPI_CR1_BR_1)
-#define SPI_BAUDRATEPRESCALER_256       (SPI_CR1_BR_2 | SPI_CR1_BR_1 | SPI_CR1_BR_0)
-
 static uint16_t result = {};
 
 static bool vs1053_write_reg(const uint8_t reg, const uint16_t value) {
@@ -66,7 +57,7 @@ bool vs1053_init(void) {
     if (!vs1053_soft_reset())
         return false;
 
-    vs1053_set_volume(50);
+    vs1053_set_volume(70);
 
     return true;
 }
@@ -82,11 +73,8 @@ bool vs1053_soft_reset(void) {
     if (!vs1053_write_reg(VS1053_REG_MODE, mode))
         return false;
 
-    if (!vs1053_write_reg(VS1053_REG_MODE, mode))
-        return false;
-
     // Set clock multiplier
-    if (!vs1053_write_reg(VS1053_REG_CLOCKF, 0x9800))
+    if (!vs1053_write_reg(VS1053_REG_CLOCKF, 0x8800))
         return false;
 
     // Set AUDATA (sample rate + stereo)
@@ -144,24 +132,17 @@ void vs1053_set_volume(const uint8_t percent) {
     vs1053_write_reg(VS1053_REG_VOLUME, (sci_vol << 8) | sci_vol);
 }
 
-void vs1053_flush_end(void)
-{
+void vs1053_flush_end(void) {
     const uint8_t zeros[32] = {0};
-
-    // Send 2048 bytes of zeros to flush internal buffers
-    for (int i = 0; i < (2048 / 32); i++) {
-        VS1053_WAIT_FOR_DREQ();
-        vs1053_send_data(zeros, 32);
-    }
 
     // Set SM_CANCEL bit
     (void)vs1053_read_reg(VS1053_REG_MODE, &result);
     (void)vs1053_write_reg(VS1053_REG_MODE, result | VS1053_MODE_SM_CANCEL);
 
     // Send more zeros until SM_CANCEL clears
-    for (int i = 0; i < 64; i++) {   // 64 × 32 bytes = 2048 bytes max
-        VS1053_WAIT_FOR_DREQ();
-        vs1053_send_data(zeros, 32);
+    for (int i = 0; i < 64; i++) {
+        // 64 × 32 bytes = 2048 bytes max
+        vs1053_send_data(zeros);
 
         (void)vs1053_read_reg(VS1053_REG_MODE, &result);
         if (!(result & VS1053_MODE_SM_CANCEL)) {
@@ -173,29 +154,26 @@ void vs1053_flush_end(void)
     vs1053_soft_reset();
 }
 
-void vs1053_start_new_track(void)
-{
+void vs1053_start_new_track(void) {
     vs1053_flush_end();
+}
 
-    // TODO: get the volume from flash
-    vs1053_set_volume(50);
+void vs1053_send_data(const uint8_t *data)
+{
+    /* Switch SPI to fast speed */
+    CLEAR_BIT(SPI1->CR1, SPI_CR1_SPE);
+    MODIFY_REG(SPI1->CR1, SPI_CR1_BR, SPI_BAUDRATEPRESCALER_8);
+    SET_BIT(SPI1->CR1, SPI_CR1_SPE);
 
     VS1053_WAIT_FOR_DREQ();
-}
 
-void vs1053_send_data(const uint8_t* data, uint16_t len) {
-    MODIFY_REG(SD_SPI_HANDLE.Instance->CR1, SPI_BAUDRATEPRESCALER_256, SPI_BAUDRATEPRESCALER_8);
     HAL_GPIO_WritePin(XD_CS_GPIO_Port, XD_CS_Pin, GPIO_PIN_RESET);
-    while (len > 0) {
-        VS1053_WAIT_FOR_DREQ();
-
-        const uint16_t chunk = (len > 32) ? 32 : len;
-
-        HAL_SPI_Transmit(&hspi1, (uint8_t*)data, chunk, HAL_MAX_DELAY);
-
-        data += chunk;
-        len -= chunk;
-    }
+    HAL_SPI_Transmit(&hspi1, (uint8_t *)data, 32, HAL_MAX_DELAY);
     HAL_GPIO_WritePin(XD_CS_GPIO_Port, XD_CS_Pin, GPIO_PIN_SET);
-    MODIFY_REG(SD_SPI_HANDLE.Instance->CR1, SPI_BAUDRATEPRESCALER_256, SPI_BAUDRATEPRESCALER_32);
+
+    /* Restore SPI speed */
+    CLEAR_BIT(SPI1->CR1, SPI_CR1_SPE);
+    MODIFY_REG(SPI1->CR1, SPI_CR1_BR, SPI_BAUDRATEPRESCALER_32);
+    SET_BIT(SPI1->CR1, SPI_CR1_SPE);
 }
+

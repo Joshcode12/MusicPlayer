@@ -58,12 +58,9 @@ bool vs1053_soft_reset(void);
 
 void vs1053_set_volume(uint8_t percent);
 
-void vs1053_play(void);
-void vs1053_pause(void);
-
 void vs1053_flush_end(void);
 
 void vs1053_start_new_track(void);
-void vs1053_send_data(const uint8_t* data, uint16_t len);
+void vs1053_send_data(const uint8_t* data);
 
 #endif //MUSICPLAYERFIRMWARE_VS1053_H
