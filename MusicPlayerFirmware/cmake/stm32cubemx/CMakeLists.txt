@@ -80,8 +80,7 @@ set(MX_LINK_DIRS
 set(MX_LINK_LIBS 
     STM32_Drivers
     ${TOOLCHAIN_LINK_LIBRARIES}
-    FatFs
-	
+    FatFs	
 )
 # Interface library for includes and symbols
 add_library(stm32cubemx INTERFACE)
@@ -95,8 +94,7 @@ target_link_libraries(STM32_Drivers PUBLIC stm32cubemx)
 
 
 # Create FatFs static library
-add_library(FatFs OBJECT
-		../../FATFS/Target/user_diskio_spi.c)
+add_library(FatFs OBJECT)
 target_sources(FatFs PRIVATE ${FatFs_Src})
 target_link_libraries(FatFs PUBLIC stm32cubemx)
 

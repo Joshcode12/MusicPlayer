@@ -75,9 +75,9 @@ void Error_Handler(void);
 #define SPI1_MISO_GPIO_Port GPIOA
 #define SPI1_MOSI_Pin GPIO_PIN_7
 #define SPI1_MOSI_GPIO_Port GPIOA
-#define BTN_PLAY_Pin GPIO_PIN_0
-#define BTN_PLAY_GPIO_Port GPIOB
-#define BTN_PLAY_EXTI_IRQn EXTI0_1_IRQn
+#define BTN_PLAYPAUSE_Pin GPIO_PIN_0
+#define BTN_PLAYPAUSE_GPIO_Port GPIOB
+#define BTN_PLAYPAUSE_EXTI_IRQn EXTI0_1_IRQn
 #define LD3_Pin GPIO_PIN_6
 #define LD3_GPIO_Port GPIOC
 #define MP3_CS_Pin GPIO_PIN_11
@@ -99,7 +99,8 @@ void Error_Handler(void);
 #define BTN_NEXT_EXTI_IRQn EXTI4_15_IRQn
 
 /* USER CODE BEGIN Private defines */
-
+#define EVENT_QUEUE_SIZE 8
+#define SD_SPI_HANDLE hspi1
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

@@ -58,8 +58,8 @@ void MX_GPIO_Init(void)
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pins : BTN_PREV_Pin BTN_PLAY_Pin BTN_NEXT_Pin */
-  GPIO_InitStruct.Pin = BTN_PREV_Pin|BTN_PLAY_Pin|BTN_NEXT_Pin;
+  /*Configure GPIO pins : BTN_PREV_Pin BTN_PLAYPAUSE_Pin BTN_NEXT_Pin */
+  GPIO_InitStruct.Pin = BTN_PREV_Pin|BTN_PLAYPAUSE_Pin|BTN_NEXT_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
   GPIO_InitStruct.Pull = GPIO_PULLDOWN;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
