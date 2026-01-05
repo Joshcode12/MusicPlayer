@@ -17,6 +17,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include <stdbool.h>
 #include "ssd1306.h"
 #include "ssd1306_fonts.h"
 /* USER CODE END Includes */
@@ -47,6 +48,21 @@ typedef struct Encoder {
     int8_t steps;
 } Encoder_t;
 
+typedef enum ErrorType {
+    ERROR_NONE,
+    ERROR_DISK_ERROR
+} ErrorType_t;
+
+typedef enum DisplayMode {
+    DISPLAY_MODE_PLAYBACK,
+    DISPLAY_MODE_TEMP_ERROR,
+    DISPLAY_MODE_ERROR
+} DisplayMode_t;
+
+typedef struct Flags {
+    bool is_playing : 1;
+} Flags_t;
+
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -57,6 +73,7 @@ typedef struct Encoder {
 #define LED_PAUSE_CHANNEL TIM_CHANNEL_1
 #define LED_PLAY_CHANNEL TIM_CHANNEL_2
 #define COUNTS_PER_DETENT 4
+#define SD_CHECK_INTERVAL 1000
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -65,6 +82,7 @@ typedef struct Encoder {
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
+
 /* USER CODE BEGIN PV */
 /* Event Queue */
 EventQueue_t event_queue = {0};
@@ -77,6 +95,12 @@ const State_t* current_state = &STATE_PLAYBACK;
 
 /* Hardware */
 Encoder_t encoder;
+Flags_t flags = {0};
+FATFS fatfs;
+FIL fil;
+
+/* Error */
+ErrorType_t current_error = ERROR_NONE;
 
 /* USER CODE END PV */
 
@@ -88,6 +112,8 @@ void push_event(Event_t e);
 Event_t pop_event(void);
 
 /* State functions */
+void change_state(const State_t* new_state);
+
 void playback_init(void);
 void playback_run(Event_t event);
 
@@ -96,10 +122,15 @@ void error_run(Event_t event);
 
 /* Display */
 void display_init(void);
+void display_update(DisplayMode_t mode);
 
 /* Rotary encoder */
 void encoder_init(Encoder_t* enc, TIM_HandleTypeDef* htim);
 void encoder_poll(Encoder_t* enc);
+
+/* SD card */
+bool sdcard_init(void);
+bool sdcard_recover(void);
 
 /* USER CODE END PFP */
 
@@ -121,105 +152,115 @@ const State_t STATE_ERROR = {
   * @brief  The application entry point.
   * @retval int
   */
-int main(void) {
-    /* USER CODE BEGIN 1 */
+int main(void)
+{
 
-    /* USER CODE END 1 */
+  /* USER CODE BEGIN 1 */
 
-    /* MCU Configuration--------------------------------------------------------*/
+  /* USER CODE END 1 */
 
-    /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-    HAL_Init();
+  /* MCU Configuration--------------------------------------------------------*/
 
-    /* USER CODE BEGIN Init */
+  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+  HAL_Init();
 
-    /* USER CODE END Init */
+  /* USER CODE BEGIN Init */
 
-    /* Configure the system clock */
-    SystemClock_Config();
+  /* USER CODE END Init */
 
-    /* USER CODE BEGIN SysInit */
+  /* Configure the system clock */
+  SystemClock_Config();
 
-    /* USER CODE END SysInit */
+  /* USER CODE BEGIN SysInit */
 
-    /* Initialize all configured peripherals */
-    MX_GPIO_Init();
-    MX_DMA_Init();
-    MX_I2C1_Init();
-    MX_SPI1_Init();
-    MX_TIM3_Init();
-    MX_TIM2_Init();
-    if (MX_FATFS_Init() != APP_OK) {
-        Error_Handler();
-    }
-    /* USER CODE BEGIN 2 */
+  /* USER CODE END SysInit */
+
+  /* Initialize all configured peripherals */
+  MX_GPIO_Init();
+  MX_DMA_Init();
+  MX_I2C1_Init();
+  MX_SPI1_Init();
+  MX_TIM3_Init();
+  MX_TIM2_Init();
+  if (MX_FATFS_Init() != APP_OK) {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN 2 */
     encoder_init(&encoder, &htim3);
     display_init();
 
+    if (!sdcard_init()) {
+        current_error = ERROR_DISK_ERROR;
+        current_state = &STATE_ERROR;
+    }
+
     current_state->init();
-    /* USER CODE END 2 */
+  /* USER CODE END 2 */
 
-    /* Infinite loop */
-    /* USER CODE BEGIN WHILE */
+  /* Infinite loop */
+  /* USER CODE BEGIN WHILE */
     while (1) {
-
         // update the current encoder value
         encoder_poll(&encoder);
 
+        // run the current state
         const Event_t event = pop_event();
         if (current_state->run) {
             current_state->run(event);
         }
 
         HAL_Delay(10);
-        /* USER CODE END WHILE */
+    /* USER CODE END WHILE */
 
-        /* USER CODE BEGIN 3 */
+    /* USER CODE BEGIN 3 */
     }
-    /* USER CODE END 3 */
+  /* USER CODE END 3 */
 }
 
 /**
   * @brief System Clock Configuration
   * @retval None
   */
-void SystemClock_Config(void) {
-    RCC_OscInitTypeDef RCC_OscInitStruct = {0};
-    RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+void SystemClock_Config(void)
+{
+  RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+  RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
 
-    /** Configure the main internal regulator output voltage
-    */
-    HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE1);
+  /** Configure the main internal regulator output voltage
+  */
+  HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE1);
 
-    /** Initializes the RCC Oscillators according to the specified parameters
-    * in the RCC_OscInitTypeDef structure.
-    */
-    RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
-    RCC_OscInitStruct.HSIState = RCC_HSI_ON;
-    RCC_OscInitStruct.HSIDiv = RCC_HSI_DIV1;
-    RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
-    RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
-    RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
-    RCC_OscInitStruct.PLL.PLLM = RCC_PLLM_DIV1;
-    RCC_OscInitStruct.PLL.PLLN = 8;
-    RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
-    RCC_OscInitStruct.PLL.PLLQ = RCC_PLLQ_DIV2;
-    RCC_OscInitStruct.PLL.PLLR = RCC_PLLR_DIV2;
-    if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK) {
-        Error_Handler();
-    }
+  /** Initializes the RCC Oscillators according to the specified parameters
+  * in the RCC_OscInitTypeDef structure.
+  */
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
+  RCC_OscInitStruct.HSIState = RCC_HSI_ON;
+  RCC_OscInitStruct.HSIDiv = RCC_HSI_DIV1;
+  RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
+  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
+  RCC_OscInitStruct.PLL.PLLM = RCC_PLLM_DIV1;
+  RCC_OscInitStruct.PLL.PLLN = 8;
+  RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
+  RCC_OscInitStruct.PLL.PLLQ = RCC_PLLQ_DIV2;
+  RCC_OscInitStruct.PLL.PLLR = RCC_PLLR_DIV2;
+  if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+  {
+    Error_Handler();
+  }
 
-    /** Initializes the CPU, AHB and APB buses clocks
-    */
-    RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK
-        | RCC_CLOCKTYPE_PCLK1;
-    RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
-    RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-    RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
+  /** Initializes the CPU, AHB and APB buses clocks
+  */
+  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+                              |RCC_CLOCKTYPE_PCLK1;
+  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
+  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
 
-    if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK) {
-        Error_Handler();
-    }
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
+  {
+    Error_Handler();
+  }
 }
 
 /* USER CODE BEGIN 4 */
@@ -255,6 +296,8 @@ void playback_run(const Event_t event) {
     case EVENT_PREV:
         break;
     }
+
+    display_update(DISPLAY_MODE_PLAYBACK);
 }
 
 void error_init(void) {
@@ -265,12 +308,77 @@ void error_init(void) {
 
 void error_run(const Event_t event) {
     (void)event;
+
+    static uint32_t last_check = 0;
+
+    display_update(DISPLAY_MODE_ERROR);
+
+    switch (current_error) {
+    case ERROR_NONE:
+        change_state(&STATE_PLAYBACK);
+        break;
+    case ERROR_DISK_ERROR:
+        if (HAL_GetTick() - last_check >= SD_CHECK_INTERVAL) {
+            last_check = HAL_GetTick();
+            if (sdcard_recover()) {
+                current_error = ERROR_NONE;
+                change_state(&STATE_PLAYBACK);
+            }
+        }
+        break;
+    default:
+        Error_Handler();
+        break;
+    }
 }
 
 void display_init(void) {
     ssd1306_Init();
     ssd1306_Fill(Black);
-    ssd1306_SetCursor(0,0);
+    ssd1306_SetCursor(0, 0);
+    ssd1306_UpdateScreen();
+}
+
+void display_update(const DisplayMode_t mode) {
+    const uint32_t current_time = HAL_GetTick();
+    static uint32_t last_update = 0;
+
+    if (last_update != 0 && (current_time - last_update) < 250)
+        return;
+
+    last_update = current_time;
+
+    uint8_t buffer[19] = {};
+
+    static const char* const title_msg[] = {
+        [DISPLAY_MODE_PLAYBACK] = "PLAYBACK >>",
+        [DISPLAY_MODE_TEMP_ERROR] = "WARNING",
+        [DISPLAY_MODE_ERROR] = "|  ERROR  |"
+    };
+
+    ssd1306_Fill(Black);
+    ssd1306_SetCursor(0, 0);
+
+    ssd1306_WriteString((char*)title_msg[mode], Font_7x10, White);
+
+    switch (mode) {
+    case DISPLAY_MODE_PLAYBACK:
+        ssd1306_SetCursor(84, 0);
+        ssd1306_WriteString(flags.is_playing ? "PLAY" : "PAUSE", Font_7x10, White);
+        break;
+    case DISPLAY_MODE_TEMP_ERROR:
+        break;
+    case DISPLAY_MODE_ERROR:
+        ssd1306_SetCursor(0, 12);
+        ssd1306_WriteString("SD Card Error", Font_7x10, White);
+        ssd1306_SetCursor(0, 22);
+        ssd1306_WriteString("Reinsert the card", Font_7x10, White);
+        break;
+    default:
+        Error_Handler();
+        break;
+    }
+
     ssd1306_UpdateScreen();
 }
 
@@ -289,6 +397,31 @@ void encoder_poll(Encoder_t* enc) {
     const int8_t detents = (int8_t)(enc->accum / COUNTS_PER_DETENT);
     enc->accum -= detents * COUNTS_PER_DETENT;
     enc->steps = detents;
+}
+
+bool sdcard_init(void) {
+    if (disk_initialize(0) == 0 && f_mount(&fatfs, "", 1) == FR_OK) {
+        return true;
+    }
+    return false;
+}
+
+bool sdcard_recover(void) {
+    // set all the spi pins to high
+    HAL_GPIO_WritePin(MP3_CS_GPIO_Port, MP3_CS_Pin, GPIO_PIN_SET);
+    HAL_GPIO_WritePin(XD_CS_GPIO_Port, XD_CS_Pin, GPIO_PIN_SET);
+    HAL_GPIO_WritePin(SD_CS_GPIO_Port, SD_CS_Pin, GPIO_PIN_SET);
+    HAL_Delay(100);
+
+    // unmount and reset the drive state
+    f_mount(NULL, "", 0);
+    extern Disk_drvTypeDef disk;
+    disk.is_initialized[0] = 0;
+
+    if (disk_initialize(0) != 0) return false;
+    if (f_mount(&fatfs, "", 1) != FR_OK) return false;
+
+    return true;
 }
 
 void change_state(const State_t* new_state) {
@@ -325,8 +458,9 @@ Event_t pop_event(void) {
   * @brief  This function is executed in case of error occurrence.
   * @retval None
   */
-void Error_Handler(void) {
-    /* USER CODE BEGIN Error_Handler_Debug */
+void Error_Handler(void)
+{
+  /* USER CODE BEGIN Error_Handler_Debug */
     /* User can add his own implementation to report the HAL error return state */
     __disable_irq();
 
@@ -338,7 +472,7 @@ void Error_Handler(void) {
         HAL_GPIO_TogglePin(LD3_GPIO_Port, LD3_Pin);
         for (volatile uint32_t i = 0; i < 2000000; i++);
     }
-    /* USER CODE END Error_Handler_Debug */
+  /* USER CODE END Error_Handler_Debug */
 }
 #ifdef USE_FULL_ASSERT
 /**
@@ -348,10 +482,11 @@ void Error_Handler(void) {
   * @param  line: assert_param error line source number
   * @retval None
   */
-void assert_failed(uint8_t* file, uint32_t line) {
-    /* USER CODE BEGIN 6 */
+void assert_failed(uint8_t *file, uint32_t line)
+{
+  /* USER CODE BEGIN 6 */
     /* User can add his own implementation to report the file name and line number,
        ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
-    /* USER CODE END 6 */
+  /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */
