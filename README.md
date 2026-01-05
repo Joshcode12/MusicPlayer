@@ -155,8 +155,8 @@ Development Phases
 - [x] FatFS mounting
 
 ### Phase 3 --- Audio
-- [ ] VS1053b SPI communication
-- [ ] MP3 streaming from SD card
+- [X] VS1053b SPI communication
+- [X] MP3 streaming from SD card
 - [ ] ID3‐based playlist support
 
 ### Phase 4 --- Integration
