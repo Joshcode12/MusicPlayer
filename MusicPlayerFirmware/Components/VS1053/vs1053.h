@@ -53,17 +53,16 @@
 
 #define VS1053_PARA_PLAYSPEED 0x1E04 // 0,1 = normal speed, 2 = 2x, 3 = 3x etc
 
-#ifndef VS1053_WAIT_FOR_DREQ
-#define VS1053_WAIT_FOR_DREQ()  do { /* user handles DREQ externally */ } while (0)
-#endif
-
 bool vs1053_init(void);
 bool vs1053_soft_reset(void);
+
 void vs1053_set_volume(uint8_t percent);
+
 void vs1053_play(void);
 void vs1053_pause(void);
-void vs1053_sine_test(void);
+
 void vs1053_flush_end(void);
+
 void vs1053_start_new_track(void);
 void vs1053_send_data(const uint8_t* data, uint16_t len);
 

@@ -80,8 +80,8 @@ void Error_Handler(void);
 #define BTN_PLAYPAUSE_EXTI_IRQn EXTI0_1_IRQn
 #define LD3_Pin GPIO_PIN_6
 #define LD3_GPIO_Port GPIOC
-#define MP3_CS_Pin GPIO_PIN_11
-#define MP3_CS_GPIO_Port GPIOA
+#define X_CS_Pin GPIO_PIN_11
+#define X_CS_GPIO_Port GPIOA
 #define XD_CS_Pin GPIO_PIN_12
 #define XD_CS_GPIO_Port GPIOA
 #define T_JTMS_Pin GPIO_PIN_13
@@ -101,6 +101,10 @@ void Error_Handler(void);
 /* USER CODE BEGIN Private defines */
 #define EVENT_QUEUE_SIZE 8
 #define SD_SPI_HANDLE hspi1
+#define VS1053_WAIT_FOR_DREQ() \
+  while (HAL_GPIO_ReadPin(DREQ_GPIO_Port, DREQ_Pin) == GPIO_PIN_RESET) { \
+    HAL_Delay(20);\
+  }
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

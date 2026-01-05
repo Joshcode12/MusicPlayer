@@ -20,6 +20,7 @@
 #include <stdbool.h>
 #include "ssd1306.h"
 #include "ssd1306_fonts.h"
+#include "vs1053.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -50,7 +51,8 @@ typedef struct Encoder {
 
 typedef enum ErrorType {
     ERROR_NONE,
-    ERROR_DISK_ERROR
+    ERROR_DISK,
+    ERROR_RESET,
 } ErrorType_t;
 
 typedef enum DisplayMode {
@@ -74,10 +76,6 @@ typedef struct Flags {
 #define LED_PLAY_CHANNEL TIM_CHANNEL_2
 #define COUNTS_PER_DETENT 4
 #define SD_CHECK_INTERVAL 1000
-#define VS1053_WAIT_FOR_DREQ() \
-    while (HAL_GPIO_ReadPin(DREQ_GPIO_Port, DREQ_Pin) == GPIO_PIN_RESET) { \
-        HAL_Delay(50)\
-    }
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -192,7 +190,12 @@ int main(void) {
     display_init();
 
     if (!sdcard_init()) {
-        current_error = ERROR_DISK_ERROR;
+        current_error = ERROR_DISK;
+        current_state = &STATE_ERROR;
+    }
+
+    if (!vs1053_init()) {
+        current_error = ERROR_RESET;
         current_state = &STATE_ERROR;
     }
 
@@ -266,7 +269,15 @@ void SystemClock_Config(void) {
 void HAL_GPIO_EXTI_Rising_Callback(const uint16_t GPIO_Pin) {
     switch (GPIO_Pin) {
     case BTN_PLAYPAUSE_Pin:
-        HAL_GPIO_TogglePin(LD3_GPIO_Port, LD3_Pin);
+        flags.is_playing ^= true;
+        if (flags.is_playing) {
+            HAL_TIM_PWM_Stop(&LED_PWM_TIM, LED_PAUSE_CHANNEL);
+            HAL_TIM_PWM_Start(&LED_PWM_TIM, LED_PLAY_CHANNEL);
+        }
+        else {
+            HAL_TIM_PWM_Start(&LED_PWM_TIM, LED_PAUSE_CHANNEL);
+            HAL_TIM_PWM_Stop(&LED_PWM_TIM, LED_PLAY_CHANNEL);
+        }
         break;
     case BTN_NEXT_Pin:
         push_event(EVENT_NEXT);
@@ -297,6 +308,10 @@ void playback_run(const Event_t event) {
     }
 
     display_update(DISPLAY_MODE_PLAYBACK);
+
+    if (flags.is_playing) {
+
+    }
 }
 
 void error_init(void) {
@@ -316,7 +331,7 @@ void error_run(const Event_t event) {
     case ERROR_NONE:
         change_state(&STATE_PLAYBACK);
         break;
-    case ERROR_DISK_ERROR:
+    case ERROR_DISK:
         if (HAL_GetTick() - last_check >= SD_CHECK_INTERVAL) {
             last_check = HAL_GetTick();
             if (sdcard_recover()) {
@@ -324,6 +339,9 @@ void error_run(const Event_t event) {
                 change_state(&STATE_PLAYBACK);
             }
         }
+        break;
+    case ERROR_RESET:
+        HAL_TIM_PWM_Start(&LED_PWM_TIM, LED_PLAY_CHANNEL);
         break;
     default:
         Error_Handler();
@@ -342,7 +360,7 @@ void display_update(const DisplayMode_t mode) {
     const uint32_t current_time = HAL_GetTick();
     static uint32_t last_update = 0;
 
-    if (last_update != 0 && (current_time - last_update) < 250)
+    if (last_update != 0 && (current_time - last_update) < 200)
         return;
 
     last_update = current_time;
@@ -353,6 +371,11 @@ void display_update(const DisplayMode_t mode) {
         [DISPLAY_MODE_PLAYBACK] = "PLAYBACK >>",
         [DISPLAY_MODE_TEMP_ERROR] = "WARNING",
         [DISPLAY_MODE_ERROR] = "|  ERROR  |"
+    };
+
+    static const char* const error_msg[] = {
+        [ERROR_DISK] = "Reinsert the card",
+        [ERROR_RESET] = "Reset the device",
     };
 
     ssd1306_Fill(Black);
@@ -368,10 +391,8 @@ void display_update(const DisplayMode_t mode) {
     case DISPLAY_MODE_TEMP_ERROR:
         break;
     case DISPLAY_MODE_ERROR:
-        ssd1306_SetCursor(0, 12);
-        ssd1306_WriteString("SD Card Error", Font_7x10, White);
         ssd1306_SetCursor(0, 22);
-        ssd1306_WriteString("Reinsert the card", Font_7x10, White);
+        ssd1306_WriteString((char*)error_msg[current_error], Font_7x10, White);
         break;
     default:
         Error_Handler();
@@ -407,7 +428,7 @@ bool sdcard_init(void) {
 
 bool sdcard_recover(void) {
     // set all the spi pins to high
-    HAL_GPIO_WritePin(MP3_CS_GPIO_Port, MP3_CS_Pin, GPIO_PIN_SET);
+    HAL_GPIO_WritePin(X_CS_GPIO_Port, X_CS_Pin, GPIO_PIN_SET);
     HAL_GPIO_WritePin(XD_CS_GPIO_Port, XD_CS_Pin, GPIO_PIN_SET);
     HAL_GPIO_WritePin(SD_CS_GPIO_Port, SD_CS_Pin, GPIO_PIN_SET);
     HAL_Delay(100);
