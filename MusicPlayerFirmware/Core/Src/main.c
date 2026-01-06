@@ -101,7 +101,7 @@ FATFS fatfs;
 FIL file;
 
 /* Audio */
-uint16_t current_track = 1;
+uint16_t current_track = 1, max_tracks = 0;;
 uint8_t volume = 50;
 
 /* Error */
@@ -316,8 +316,11 @@ void HAL_GPIO_EXTI_Rising_Callback(const uint16_t GPIO_Pin) {
 uint8_t* track_path(uint16_t track_num) {
     static uint8_t track_path_buffer[] = "audio/000.mp3";
 
-    if (track_num > 999)
-        track_num = 999;
+    if (track_num > max_tracks)
+        track_num = 1;
+
+    if (track_num < 1)
+        track_num = max_tracks;
 
     // Write digits into the buffer
     track_path_buffer[6] = '0' + (track_num / 100);
@@ -369,6 +372,24 @@ void playback_init(void) {
     HAL_TIM_PWM_Start(&LED_PWM_TIM, LED_PAUSE_CHANNEL);
     HAL_TIM_PWM_Stop(&LED_PWM_TIM, LED_PLAY_CHANNEL);
 
+    DIR dir;
+    FILINFO fno;
+
+    max_tracks = 0;
+
+    FRESULT res = f_opendir(&dir, "audio");
+    if (res == FR_OK) {
+        for (;;) {
+            res = f_readdir(&dir, &fno); // Read a directory item
+            if (res != FR_OK || fno.fname[0] == 0) break;
+
+            if (!(fno.fattrib & (AM_DIR | AM_HID | AM_SYS))) {
+                ++max_tracks;
+            }
+        }
+        f_closedir(&dir); // Close the directory
+    }
+
     open_file();
 }
 
@@ -378,18 +399,14 @@ void playback_run(const Event_t event) {
         f_close(&file);
         vs1053_start_new_track();
 
-        if (++current_track > 999)
-            current_track = 1;
-
+        ++current_track;
         open_file();
         break;
     case EVENT_PREV:
         f_close(&file);
         vs1053_start_new_track();
 
-        if (--current_track < 1)
-            current_track = 999;
-
+        --current_track;
         open_file();
         break;
     case EVENT_NONE:
@@ -407,19 +424,18 @@ void playback_run(const Event_t event) {
         f_close(&file);
         vs1053_start_new_track();
 
-        if (++current_track > 999)
-            current_track = 1;
-
+        ++current_track;
         open_file();
     }
 }
 
 void error_init(void) {
+    f_close(&file);
+    flags.is_playing = false;
+
     __HAL_TIM_SET_PRESCALER(&LED_PWM_TIM, LED_PWM_SLOW);
     HAL_TIM_PWM_Start(&LED_PWM_TIM, LED_PAUSE_CHANNEL);
     HAL_TIM_PWM_Stop(&LED_PWM_TIM, LED_PLAY_CHANNEL);
-
-    flags.is_playing = false;
 }
 
 void error_run(const Event_t event) {
@@ -462,7 +478,7 @@ void display_update(const DisplayMode_t mode) {
     const uint32_t current_time = HAL_GetTick();
     static uint32_t last_update = 0;
 
-    const uint32_t current_sec = vs1053_get_decode_time();
+    const uint16_t current_sec = vs1053_get_decode_time();
 
     if (last_update != 0 && (current_time - last_update) < 250)
         return;

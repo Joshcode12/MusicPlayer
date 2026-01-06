@@ -19,7 +19,7 @@ static bool vs1053_write_reg(const uint8_t reg, const uint16_t value) {
         (uint8_t)(value & 0xFF)
     };
 
-    /* Switch SPI to fast speed */
+    /* Switch SPI to lower speed */
     CLEAR_BIT(SPI1->CR1, SPI_CR1_SPE);
     MODIFY_REG(SPI1->CR1, SPI_CR1_BR, SPI_BAUDRATEPRESCALER_32);
     SET_BIT(SPI1->CR1, SPI_CR1_SPE);
@@ -47,7 +47,7 @@ static bool vs1053_read_reg(const uint8_t reg, uint16_t* value) {
     };
     uint8_t rx_buf[4] = {0};
 
-    /* Switch SPI to fast speed */
+    /* Switch SPI to lower speed */
     CLEAR_BIT(SPI1->CR1, SPI_CR1_SPE);
     MODIFY_REG(SPI1->CR1, SPI_CR1_BR, SPI_BAUDRATEPRESCALER_32);
     SET_BIT(SPI1->CR1, SPI_CR1_SPE);
@@ -99,7 +99,10 @@ bool vs1053_soft_reset(void) {
         return false;
 
     // Set clock multiplier
-    if (!vs1053_write_reg(VS1053_REG_CLOCKF, 0x8800))
+    if (!vs1053_write_reg(VS1053_REG_CLOCKF, 0x9800))
+        return false;
+
+    if (!vs1053_read_reg(VS1053_REG_CLOCKF, &result))
         return false;
 
     // Set AUDATA (sample rate + stereo)
@@ -190,14 +193,9 @@ void vs1053_send_data(const uint8_t* data, uint16_t len) {
         data += chunk;
         len -= chunk;
     }
-
-    /* Restore SPI speed */
-    CLEAR_BIT(SPI1->CR1, SPI_CR1_SPE);
-    MODIFY_REG(SPI1->CR1, SPI_CR1_BR, SPI_BAUDRATEPRESCALER_8);
-    SET_BIT(SPI1->CR1, SPI_CR1_SPE);
 }
 
-uint32_t vs1053_get_decode_time(void) {
+uint16_t vs1053_get_decode_time(void) {
     if (vs1053_read_reg(VS1053_REG_DECODETIME, &result))
         return result;
 
