@@ -90,7 +90,7 @@ bool vs1053_soft_reset(void) {
 
     HAL_Delay(2); // datasheet says at least 2 ms
 
-    const uint16_t mode = VS1053_MODE_SM_SDINEW | VS1053_MODE_SM_LAYER12 | VS1053_MODE_SM_DIFF;
+    const uint16_t mode = VS1053_MODE_SM_SDINEW | VS1053_MODE_SM_DIFF;
 
     if (!vs1053_write_reg(VS1053_REG_MODE, mode))
         return false;
