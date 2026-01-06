@@ -52,12 +52,11 @@ typedef struct Encoder {
 typedef enum ErrorType {
     ERROR_NONE,
     ERROR_DISK,
-    ERROR_RESET,
+    ERROR_RESET
 } ErrorType_t;
 
 typedef enum DisplayMode {
     DISPLAY_MODE_PLAYBACK,
-    DISPLAY_MODE_TEMP_ERROR,
     DISPLAY_MODE_ERROR
 } DisplayMode_t;
 
@@ -99,7 +98,11 @@ const State_t* current_state = &STATE_PLAYBACK;
 Encoder_t encoder;
 Flags_t flags = {0};
 FATFS fatfs;
-FIL fil;
+FIL file;
+
+/* Audio */
+uint16_t current_track = 1;
+uint8_t volume = 50;
 
 /* Error */
 ErrorType_t current_error = ERROR_NONE;
@@ -129,6 +132,12 @@ void display_update(DisplayMode_t mode);
 /* Rotary encoder */
 void encoder_init(Encoder_t* enc, TIM_HandleTypeDef* htim);
 void encoder_poll(Encoder_t* enc);
+
+/* Audio */
+uint8_t* track_path(uint16_t track_num);
+bool stream_chunk(void);
+void parse_id3(void);
+void open_file(void);
 
 /* SD card */
 bool sdcard_init(void);
@@ -186,7 +195,7 @@ int main(void) {
         Error_Handler();
     }
     /* USER CODE BEGIN 2 */
-    encoder_init(&encoder, &htim3);
+    encoder_init(&encoder, &htim2);
     display_init();
 
     if (!sdcard_init()) {
@@ -208,13 +217,22 @@ int main(void) {
         // update the current encoder value
         encoder_poll(&encoder);
 
+        if (encoder.steps != 0) {
+            int16_t new_volume = (int16_t)(volume + encoder.steps * 5);
+
+            if (new_volume < 0) new_volume = 0;
+            if (new_volume > 100) new_volume = 100;
+
+            volume = new_volume;
+            encoder.steps = 0;
+            vs1053_set_volume(volume);
+        }
+
         // run the current state
         const Event_t event = pop_event();
         if (current_state->run) {
             current_state->run(event);
         }
-
-        HAL_Delay(10);
         /* USER CODE END WHILE */
 
         /* USER CODE BEGIN 3 */
@@ -291,26 +309,102 @@ void HAL_GPIO_EXTI_Rising_Callback(const uint16_t GPIO_Pin) {
     }
 }
 
+uint8_t* track_path(uint16_t track_num) {
+    static uint8_t track_path_buffer[] = "audio/000.mp3";
+
+    if (track_num > 999)
+        track_num = 999;
+
+    // Write digits into the buffer
+    track_path_buffer[6] = '0' + (track_num / 100);
+    track_path_buffer[7] = '0' + ((track_num / 10) % 10);
+    track_path_buffer[8] = '0' + (track_num % 10);
+
+    return track_path_buffer;
+}
+
+bool stream_chunk(void) {
+    uint8_t buffer[1024] = {};
+    UINT bytes_read = 0;
+
+    if (f_read(&file, buffer, sizeof(buffer), &bytes_read) != FR_OK) {
+        f_close(&file);
+        vs1053_start_new_track();
+        current_error = ERROR_DISK;
+        change_state(&STATE_ERROR);
+        return false;
+    }
+
+    if (bytes_read == 0)
+        return false;
+
+    vs1053_send_data(buffer, bytes_read);
+    return true;
+}
+
+void open_file(void) {
+    if (f_open(&file, (const TCHAR*)track_path(current_track), FA_READ) == FR_OK) {
+        return;
+    }
+
+    // If failed, wrap to track 1
+    current_track = 1;
+
+    if (f_open(&file, (const TCHAR*)track_path(current_track), FA_READ) != FR_OK) {
+        f_close(&file);
+        vs1053_start_new_track();
+        current_error = ERROR_DISK;
+        change_state(&STATE_ERROR);
+    }
+}
+
 void playback_init(void) {
     __HAL_TIM_SET_PRESCALER(&LED_PWM_TIM, LED_PWM_FAST);
     HAL_TIM_PWM_Start(&LED_PWM_TIM, LED_PAUSE_CHANNEL);
     HAL_TIM_PWM_Stop(&LED_PWM_TIM, LED_PLAY_CHANNEL);
+
+    open_file();
 }
 
 void playback_run(const Event_t event) {
     switch (event) {
-    case EVENT_NONE:
-        break;
     case EVENT_NEXT:
+        f_close(&file);
+        vs1053_start_new_track();
+
+        if (++current_track > 999)
+            current_track = 1;
+
+        open_file();
         break;
     case EVENT_PREV:
+        f_close(&file);
+        vs1053_start_new_track();
+
+        if (--current_track < 1)
+            current_track = 999;
+
+        open_file();
+        break;
+    case EVENT_NONE:
+    default:
         break;
     }
 
     display_update(DISPLAY_MODE_PLAYBACK);
 
-    if (flags.is_playing) {
+    if (!flags.is_playing)
+        return;
 
+    if (!stream_chunk()) {
+        // End of file reached → go to next track
+        f_close(&file);
+        vs1053_start_new_track();
+
+        if (++current_track > 999)
+            current_track = 1;
+
+        open_file();
     }
 }
 
@@ -318,6 +412,8 @@ void error_init(void) {
     __HAL_TIM_SET_PRESCALER(&LED_PWM_TIM, LED_PWM_SLOW);
     HAL_TIM_PWM_Start(&LED_PWM_TIM, LED_PAUSE_CHANNEL);
     HAL_TIM_PWM_Stop(&LED_PWM_TIM, LED_PLAY_CHANNEL);
+
+    flags.is_playing = false;
 }
 
 void error_run(const Event_t event) {
@@ -360,7 +456,9 @@ void display_update(const DisplayMode_t mode) {
     const uint32_t current_time = HAL_GetTick();
     static uint32_t last_update = 0;
 
-    if (last_update != 0 && (current_time - last_update) < 200)
+    const uint32_t current_sec = vs1053_get_decode_time();
+
+    if (last_update != 0 && (current_time - last_update) < 250)
         return;
 
     last_update = current_time;
@@ -369,7 +467,6 @@ void display_update(const DisplayMode_t mode) {
 
     static const char* const title_msg[] = {
         [DISPLAY_MODE_PLAYBACK] = "PLAYBACK >>",
-        [DISPLAY_MODE_TEMP_ERROR] = "WARNING",
         [DISPLAY_MODE_ERROR] = "|  ERROR  |"
     };
 
@@ -387,8 +484,48 @@ void display_update(const DisplayMode_t mode) {
     case DISPLAY_MODE_PLAYBACK:
         ssd1306_SetCursor(84, 0);
         ssd1306_WriteString(flags.is_playing ? "PLAY" : "PAUSE", Font_7x10, White);
-        break;
-    case DISPLAY_MODE_TEMP_ERROR:
+
+        // Display volume
+        buffer[0] = 'V';
+        buffer[1] = 'o';
+        buffer[2] = 'l';
+        buffer[3] = ':';
+        buffer[4] = ' ';
+
+        if (volume == 100) {
+            buffer[5] = '1';
+            buffer[6] = '0';
+            buffer[7] = '0';
+            buffer[8] = '%';
+            buffer[9] = '\0';
+        }
+        else {
+            buffer[5] = (volume / 10) + '0';
+            buffer[6] = (volume % 10) + '0';
+            buffer[7] = '%';
+            buffer[8] = '\0';
+        }
+
+        ssd1306_SetCursor(0, 12);
+        ssd1306_WriteString((char*)buffer, Font_7x10, White);
+
+        // Display current time (hh:mm:ss)
+        const uint16_t hours = current_sec / 3600;
+        const uint8_t minutes = (current_sec % 3600) / 60;
+        const uint8_t seconds = current_sec % 60;
+
+        buffer[0] = (hours / 10) + '0';
+        buffer[1] = (hours % 10) + '0';
+        buffer[2] = ':';
+        buffer[3] = (minutes / 10) + '0';
+        buffer[4] = (minutes % 10) + '0';
+        buffer[5] = ':';
+        buffer[6] = (seconds / 10) + '0';
+        buffer[7] = (seconds % 10) + '0';
+        buffer[8] = '\0';
+
+        ssd1306_SetCursor(0, 24);
+        ssd1306_WriteString((char*)buffer, Font_7x10, White);
         break;
     case DISPLAY_MODE_ERROR:
         ssd1306_SetCursor(0, 22);

@@ -101,9 +101,10 @@ void Error_Handler(void);
 /* USER CODE BEGIN Private defines */
 #define EVENT_QUEUE_SIZE 8
 #define SD_SPI_HANDLE hspi1
+#define SPI_HANDLE hspi1
 #define VS1053_WAIT_FOR_DREQ() \
   while (HAL_GPIO_ReadPin(DREQ_GPIO_Port, DREQ_Pin) == GPIO_PIN_RESET) { \
-    HAL_Delay(20);\
+    __NOP();\
   }
 /* USER CODE END Private defines */
 
