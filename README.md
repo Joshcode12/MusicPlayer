@@ -157,12 +157,11 @@ Development Phases
 ### Phase 3 --- Audio
 - [X] VS1053b SPI communication
 - [X] MP3 streaming from SD card
-- [ ] ID3‐based playlist support
 
 ### Phase 4 --- Integration
-- [ ] Playback controls
+- [X] Playback controls
+- [X] Volume control via encoder
 - [ ] Track metadata display
-- [ ] Volume control via encoder
 
 * * * * *
 
