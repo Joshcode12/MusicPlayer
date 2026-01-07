@@ -9,9 +9,9 @@
 
 extern SPI_HandleTypeDef SPI_HANDLE;
 
-static uint16_t result = {};
+static uint16_t result = 0;
 
-static uint8_t reg_volume_value = 0;
+static uint16_t reg_volume_value = 0;
 
 static bool vs1053_write_reg(const uint8_t reg, const uint16_t value) {
     uint8_t tx_buf[4] = {
@@ -92,23 +92,13 @@ bool vs1053_soft_reset(void) {
 
     HAL_Delay(2); // datasheet says at least 2 ms
 
-    const uint16_t mode = VS1053_MODE_SM_SDINEW | VS1053_MODE_SM_DIFF;
-
-    if (!vs1053_write_reg(VS1053_REG_MODE, mode))
-        return false;
+    const uint16_t mode = VS1053_MODE_SM_SDINEW | VS1053_MODE_SM_LAYER12 | VS1053_MODE_SM_DIFF;
 
     if (!vs1053_write_reg(VS1053_REG_MODE, mode))
         return false;
 
     // Set clock multiplier
     if (!vs1053_write_reg(VS1053_REG_CLOCKF, 0x9800))
-        return false;
-
-    if (!vs1053_read_reg(VS1053_REG_CLOCKF, &result))
-        return false;
-
-    // Set AUDATA (sample rate + stereo)
-    if (!vs1053_write_reg(VS1053_REG_AUDATA, 0x6D60))
         return false;
 
     // check if the init worked

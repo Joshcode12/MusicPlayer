@@ -1,0 +1,116 @@
+Configuration	MusicPlayerFirmware
+STM32CubeMX 	6.16.1
+Date	01/07/2026
+MCU	STM32G031K8Tx
+
+
+
+PERIPHERALS	MODES	FUNCTIONS	PINS
+I2C1	I2C	I2C1_SCL	PA9
+I2C1	I2C	I2C1_SDA	PA10
+RCC	Crystal/Ceramic Resonator	RCC_OSC32_IN	PC14-OSC32_IN (PC14)
+RCC	Crystal/Ceramic Resonator	RCC_OSC32_OUT	PC15-OSC32_OUT (PC15)
+SPI1	Full-Duplex Master	SPI1_MISO	PA6
+SPI1	Full-Duplex Master	SPI1_MOSI	PA7
+SPI1	Full-Duplex Master	SPI1_SCK	PA5
+SYS	Serial Wire	SYS_SWCLK	PA14-BOOT0
+SYS	Serial Wire	SYS_SWDIO	PA13
+SYS	SysTick	SYS_VS_Systick	VP_SYS_VS_Systick
+TIM2	Encoder Mode	TIM2_CH1	PA0
+TIM2	Encoder Mode	TIM2_CH2	PA1
+TIM3	PWM Generation CH1	TIM3_CH1	PB4
+TIM3	PWM Generation CH2	TIM3_CH2	PB5
+
+
+
+Pin Nb	PINs	FUNCTIONs	LABELs
+1	PB9	GPIO_EXTI9	BTN_PREV
+2	PC14-OSC32_IN (PC14)	RCC_OSC32_IN	
+3	PC15-OSC32_OUT (PC15)	RCC_OSC32_OUT	
+6	PF2 - NRST	GPIO_EXTI2	T_NRST
+7	PA0	TIM2_CH1	ENC_A
+8	PA1	TIM2_CH2	ENC_B
+11	PA4	GPIO_Output	SD_CS
+12	PA5	SPI1_SCK	SPI1_SCK
+13	PA6	SPI1_MISO	SPI1_MISO
+14	PA7	SPI1_MOSI	SPI1_MOSI
+15	PB0	GPIO_EXTI0	BTN_PLAYPAUSE
+19	PA9	I2C1_SCL	
+20	PC6	GPIO_Output	LD3 [Green]
+21	PA10	I2C1_SDA	
+22	PA11 [PA9]	GPIO_Output	X_CS
+23	PA12 [PA10]	GPIO_Output	XD_CS
+24	PA13	SYS_SWDIO	T_JTMS
+25	PA14-BOOT0	SYS_SWCLK	T_JTCK
+27	PB3	GPIO_Input	DREQ
+28	PB4	TIM3_CH1	LED_PAUSE
+29	PB5	TIM3_CH2	LED_PLAY
+32	PB8	GPIO_EXTI8	BTN_NEXT
+PERIPHERALS	MODES	FUNCTIONS	PINS
+I2C1	I2C	I2C1_SCL	PA9
+I2C1	I2C	I2C1_SDA	PA10
+RCC	Crystal/Ceramic Resonator	RCC_OSC32_IN	PC14-OSC32_IN (PC14)
+RCC	Crystal/Ceramic Resonator	RCC_OSC32_OUT	PC15-OSC32_OUT (PC15)
+SPI1	Full-Duplex Master	SPI1_MISO	PA6
+SPI1	Full-Duplex Master	SPI1_MOSI	PA7
+SPI1	Full-Duplex Master	SPI1_SCK	PA5
+SYS	Serial Wire	SYS_SWCLK	PA14-BOOT0
+SYS	Serial Wire	SYS_SWDIO	PA13
+SYS	SysTick	SYS_VS_Systick	VP_SYS_VS_Systick
+TIM2	Encoder Mode	TIM2_CH1	PA0
+TIM2	Encoder Mode	TIM2_CH2	PA1
+TIM3	PWM Generation CH1	TIM3_CH1	PB4
+TIM3	PWM Generation CH2	TIM3_CH2	PB5
+
+
+
+Pin Nb	PINs	FUNCTIONs	LABELs
+1	PB9	GPIO_EXTI9	BTN_PREV
+2	PC14-OSC32_IN (PC14)	RCC_OSC32_IN	
+3	PC15-OSC32_OUT (PC15)	RCC_OSC32_OUT	
+6	PF2 - NRST	GPIO_EXTI2	T_NRST
+7	PA0	TIM2_CH1	ENC_A
+8	PA1	TIM2_CH2	ENC_B
+11	PA4	GPIO_Output	SD_CS
+12	PA5	SPI1_SCK	SPI1_SCK
+13	PA6	SPI1_MISO	SPI1_MISO
+14	PA7	SPI1_MOSI	SPI1_MOSI
+15	PB0	GPIO_EXTI0	BTN_PLAYPAUSE
+19	PA9	I2C1_SCL	
+20	PC6	GPIO_Output	LD3 [Green]
+21	PA10	I2C1_SDA	
+22	PA11 [PA9]	GPIO_Output	X_CS
+23	PA12 [PA10]	GPIO_Output	XD_CS
+24	PA13	SYS_SWDIO	T_JTMS
+25	PA14-BOOT0	SYS_SWCLK	T_JTCK
+27	PB3	GPIO_Input	DREQ
+28	PB4	TIM3_CH1	LED_PAUSE
+29	PB5	TIM3_CH2	LED_PLAY
+32	PB8	GPIO_EXTI8	BTN_NEXT
+
+
+
+SOFTWARE PROJECT
+
+Project Settings : 
+Project Name : MusicPlayerFirmware
+Project Folder : C:\Users\joshs\PersonalProjects\EmbeddedProjects\MusicPlayer\MusicPlayerFirmware
+Toolchain / IDE : CMake
+Firmware Package Name and Version : STM32Cube FW_G0 V1.6.2
+
+
+Code Generation Settings : 
+STM32Cube MCU packages and embedded software packs : Copy only the necessary library files
+Generate peripheral initialization as a pair of '.c/.h' files per peripheral : Yes
+Backup previously generated files when re-generating : No
+Delete previously generated files when not re-generated : Yes
+Set all free pins as analog (to optimize the power consumption) : Yes
+
+
+Toolchains Settings : 
+Compiler Optimizations : 
+
+
+
+
+

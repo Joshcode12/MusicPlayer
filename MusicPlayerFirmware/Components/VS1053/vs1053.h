@@ -58,9 +58,13 @@ bool vs1053_soft_reset(void);
 
 void vs1053_set_volume(uint8_t percent);
 
+// flush the internal audio data buffer
 void vs1053_flush_end(void);
 
+// clears the buffer and resets the decode duration
 void vs1053_start_new_track(void);
+
+// send the file data will send it in 32bit chunks
 void vs1053_send_data(const uint8_t* data, uint16_t len);
 uint16_t vs1053_get_current_decode_time(void);
 

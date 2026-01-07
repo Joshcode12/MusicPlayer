@@ -10,6 +10,7 @@
 
 #include <stddef.h>
 #include <stdint.h>
+#include <stdbool.h>
 #include <_ansi.h>
 
 _BEGIN_STD_C
@@ -104,6 +105,7 @@ _BEGIN_STD_C
 
 #if defined(SSD1306_USE_I2C)
 extern I2C_HandleTypeDef SSD1306_I2C_PORT;
+extern volatile bool ssd1306_dma_busy;
 #elif defined(SSD1306_USE_SPI)
 extern SPI_HandleTypeDef SSD1306_SPI_PORT;
 #else

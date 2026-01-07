@@ -33,7 +33,9 @@ enable_language(C ASM)
 
 # Create an executable object type
 add_executable(${CMAKE_PROJECT_NAME}
-        Components/VS1053/vs1053.h)
+        Components/VS1053/vs1053.h
+        Components/VolumeStore/store.h
+)
 
 # Add STM32CubeMX generated sources
 add_subdirectory(cmake/stm32cubemx)
@@ -51,6 +53,7 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
         Components/SSD1306/ssd1306.c
         Components/SSD1306/ssd1306_fonts.c
         Components/VS1053/vs1053.c
+        Components/VolumeStore/store.c
 )
 
 # Add include paths
@@ -58,6 +61,7 @@ target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
         # Add user defined include paths
         Components/SSD1306
         Components/VS1053
+        Components/VolumeStore
 )
 
 # Add project symbols (macros)

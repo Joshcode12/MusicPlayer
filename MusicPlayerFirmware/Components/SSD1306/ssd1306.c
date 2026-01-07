@@ -5,6 +5,8 @@
 
 #if defined(SSD1306_USE_I2C)
 
+volatile bool ssd1306_dma_busy = false;
+
 void ssd1306_Reset(void) {
     /* for I2C - do nothing */
 }
@@ -17,6 +19,16 @@ void ssd1306_WriteCommand(uint8_t byte) {
 // Send data
 void ssd1306_WriteData(uint8_t* buffer, size_t buff_size) {
     HAL_I2C_Mem_Write(&SSD1306_I2C_PORT, SSD1306_I2C_ADDR, 0x40, 1, buffer, buff_size, HAL_MAX_DELAY);
+}
+
+// Send data DMA
+HAL_StatusTypeDef ssd1306_WriteData_DMA(uint8_t *buffer, uint16_t size) {
+    if (ssd1306_dma_busy)
+        return HAL_BUSY;
+
+    ssd1306_dma_busy = true;
+
+    return HAL_I2C_Mem_Write_DMA(&SSD1306_I2C_PORT, SSD1306_I2C_ADDR, 0x40, 1, buffer, size);
 }
 
 #elif defined(SSD1306_USE_SPI)
@@ -177,19 +189,32 @@ void ssd1306_Fill(SSD1306_COLOR color) {
 }
 
 /* Write the screenbuffer with changed to the screen */
+// void ssd1306_UpdateScreen(void) {
+//     // Write data to each page of RAM. Number of pages
+//     // depends on the screen height:
+//     //
+//     //  * 32px   ==  4 pages
+//     //  * 64px   ==  8 pages
+//     //  * 128px  ==  16 pages
+//     for(uint8_t i = 0; i < SSD1306_HEIGHT/8; i++) {
+//         while (ssd1306_dma_busy) {}
+//
+//         ssd1306_WriteCommand(0xB0 + i); // Set the current RAM page address.
+//         ssd1306_WriteCommand(0x00 + SSD1306_X_OFFSET_LOWER);
+//         ssd1306_WriteCommand(0x10 + SSD1306_X_OFFSET_UPPER);
+//
+//         (void)ssd1306_WriteData_DMA(&SSD1306_Buffer[SSD1306_WIDTH*i],SSD1306_WIDTH);
+//     }
+// }
+
 void ssd1306_UpdateScreen(void) {
-    // Write data to each page of RAM. Number of pages
-    // depends on the screen height:
-    //
-    //  * 32px   ==  4 pages
-    //  * 64px   ==  8 pages
-    //  * 128px  ==  16 pages
-    for(uint8_t i = 0; i < SSD1306_HEIGHT/8; i++) {
-        ssd1306_WriteCommand(0xB0 + i); // Set the current RAM page address.
-        ssd1306_WriteCommand(0x00 + SSD1306_X_OFFSET_LOWER);
-        ssd1306_WriteCommand(0x10 + SSD1306_X_OFFSET_UPPER);
-        ssd1306_WriteData(&SSD1306_Buffer[SSD1306_WIDTH*i],SSD1306_WIDTH);
-    }
+    while (ssd1306_dma_busy) {}
+
+    ssd1306_WriteCommand(0xB0); // Page 0
+    ssd1306_WriteCommand(0x00 + SSD1306_X_OFFSET_LOWER);
+    ssd1306_WriteCommand(0x10 + SSD1306_X_OFFSET_UPPER);
+
+    ssd1306_WriteData_DMA(SSD1306_Buffer, SSD1306_BUFFER_SIZE);
 }
 
 /*
