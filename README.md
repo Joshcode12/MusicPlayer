@@ -7,6 +7,9 @@ A standalone MP3 player built around the STM32G031K8 microcontroller, featuring 
 
 * * * * *
 
+**Current Version:** v1.0.0 (First Release)
+
+
 Hardware Components
 -------------------
 
@@ -127,14 +130,14 @@ Playback Architecture
 - Extracts:
     - Title
     - Duration
-- Requires only a small buffer 640-bytes
+- Requires only a small buffer of 64 bytes
 
 ### File Naming
 - Firmware generates filenames:
   ```
   audio/%03d.mp3
   ```
-- No directory scanning required, but was done to wrapping around
+- No directory scanning required, but was done to avoid wrapping around
 - Perfect for low‑RAM systems
 
 * * * * *
