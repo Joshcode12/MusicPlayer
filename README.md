@@ -99,14 +99,12 @@ Software Architecture
 9. `MX_FATFS_Init()` --- filesystem
 
 ### DMA Channels
-- DMA1_CH1 --- SPI1_RX
-- DMA1_CH2 --- SPI1_TX
 - DMA1_CH4 --- I2C1_TX
 
 ### Libraries
 - **HAL** --- STM32 HAL
 - **FatFS** --- R0.12c
-- **SD Card SPI driver** --- kiwih/cubeide-sd-card (modified for 3‑wire SPI)
+- **SD Card SPI driver** --- kiwih/cubeide-sd-card
 - **SSD1306 OLED** --- afiskon/stm32-ssd1306
 
 * * * * *
@@ -122,21 +120,21 @@ Playback Architecture
 ### State Machine
 - **Playback State**
 - **Error State**
-- Fully non‐blocking (no `HAL_Delay()` inside states)
+- Fully non‐blocking (no `HAL_Delay()` inside states except when needed to show user info before it is updated)
 
 ### ID3 Tag Extraction
-- Reads ID3v1 or ID3v2 tags when loading a track
+- Reads ID3v2 tags when loading a track
 - Extracts:
     - Title
     - Duration
-- Requires only a small buffer (64--128 bytes)
+- Requires only a small buffer 640-bytes
 
 ### File Naming
 - Firmware generates filenames:
   ```
   audio/%03d.mp3
   ```
-- No directory scanning required
+- No directory scanning required, but was done to wrapping around
 - Perfect for low‑RAM systems
 
 * * * * *
@@ -161,7 +159,8 @@ Development Phases
 ### Phase 4 --- Integration
 - [X] Playback controls
 - [X] Volume control via encoder
-- [ ] Track metadata display
+- [X] Track metadata display (Title and duration)
+- [X] Volume storage
 
 * * * * *
 
@@ -187,6 +186,13 @@ st-flash write build/MusicPlayerFirmware.bin 0x8000000
 Use ST‑Link to flash the `.elf` file.
 
 * * * * *
+
+Pictures
+--------
+![Breadboard image](https://github.com/user-attachments/assets/490622cd-4efd-49cc-babe-037e003cacbe)
+
+<img width="760" height="670" alt="Cubemx pin-out" src="https://github.com/user-attachments/assets/c0e9b8b9-3652-4b36-adaf-cd3eebfcd685" />
+
 
 License
 -------
