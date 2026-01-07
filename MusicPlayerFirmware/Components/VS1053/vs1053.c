@@ -11,6 +11,8 @@ extern SPI_HandleTypeDef SPI_HANDLE;
 
 static uint16_t result = {};
 
+static uint8_t reg_volume_value = 0;
+
 static bool vs1053_write_reg(const uint8_t reg, const uint16_t value) {
     uint8_t tx_buf[4] = {
         VS1053_SCI_WRITE,
@@ -27,7 +29,7 @@ static bool vs1053_write_reg(const uint8_t reg, const uint16_t value) {
     VS1053_WAIT_FOR_DREQ();
 
     HAL_GPIO_WritePin(X_CS_GPIO_Port, X_CS_Pin, GPIO_PIN_RESET);
-    const HAL_StatusTypeDef status = HAL_SPI_Transmit(&SPI_HANDLE, tx_buf, sizeof(tx_buf), HAL_MAX_DELAY);
+    const HAL_StatusTypeDef status = HAL_SPI_Transmit(&SPI_HANDLE, tx_buf, 4, HAL_MAX_DELAY);
     HAL_GPIO_WritePin(X_CS_GPIO_Port, X_CS_Pin, GPIO_PIN_SET);
 
     /* Restore SPI speed */
@@ -56,7 +58,7 @@ static bool vs1053_read_reg(const uint8_t reg, uint16_t* value) {
 
     HAL_GPIO_WritePin(X_CS_GPIO_Port, X_CS_Pin, GPIO_PIN_RESET);
     const HAL_StatusTypeDef status =
-        HAL_SPI_TransmitReceive(&SPI_HANDLE, tx_buf, rx_buf, sizeof(tx_buf), HAL_MAX_DELAY);
+        HAL_SPI_TransmitReceive(&SPI_HANDLE, tx_buf, rx_buf, 4, HAL_MAX_DELAY);
     HAL_GPIO_WritePin(X_CS_GPIO_Port, X_CS_Pin, GPIO_PIN_SET);
 
     /* Restore SPI speed */
@@ -142,7 +144,9 @@ void vs1053_set_volume(uint8_t percent) {
 
     const uint8_t index = 20 - (percent / 5);
 
-    vs1053_write_reg(VS1053_REG_VOLUME, (sci_vol_table[index] << 8) | sci_vol_table[index]);
+    reg_volume_value = (sci_vol_table[index] << 8) | sci_vol_table[index];
+
+    vs1053_write_reg(VS1053_REG_VOLUME, reg_volume_value);
 }
 
 void vs1053_flush_end(void) {
@@ -195,7 +199,7 @@ void vs1053_send_data(const uint8_t* data, uint16_t len) {
     }
 }
 
-uint16_t vs1053_get_decode_time(void) {
+uint16_t vs1053_get_current_decode_time(void) {
     if (vs1053_read_reg(VS1053_REG_DECODETIME, &result))
         return result;
 

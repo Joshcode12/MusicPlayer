@@ -18,6 +18,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include <stdbool.h>
+#include <string.h>
 #include "ssd1306.h"
 #include "ssd1306_fonts.h"
 #include "vs1053.h"
@@ -59,6 +60,11 @@ typedef enum DisplayMode {
     DISPLAY_MODE_PLAYBACK,
     DISPLAY_MODE_ERROR
 } DisplayMode_t;
+
+typedef struct MP3Info {
+    char title[64];
+    uint16_t duration;
+} MP3Info_t;
 
 typedef struct Flags {
     bool is_playing : 1;
@@ -103,6 +109,10 @@ FIL file;
 /* Audio */
 uint16_t current_track = 1, max_tracks = 0;;
 uint8_t volume = 50;
+MP3Info_t mp3_info = {
+    .title = "STARTUP...",
+    .duration = 0
+};
 
 /* Error */
 ErrorType_t current_error = ERROR_NONE;
@@ -137,6 +147,7 @@ void encoder_poll(Encoder_t* enc);
 uint8_t* track_path(uint16_t track_num);
 bool stream_chunk(void);
 void open_file(void);
+bool get_mp3_info(void);
 
 /* SD card */
 bool sdcard_init(void);
@@ -162,40 +173,38 @@ const State_t STATE_ERROR = {
   * @brief  The application entry point.
   * @retval int
   */
-int main(void)
-{
+int main(void) {
+    /* USER CODE BEGIN 1 */
 
-  /* USER CODE BEGIN 1 */
+    /* USER CODE END 1 */
 
-  /* USER CODE END 1 */
+    /* MCU Configuration--------------------------------------------------------*/
 
-  /* MCU Configuration--------------------------------------------------------*/
+    /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+    HAL_Init();
 
-  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  HAL_Init();
+    /* USER CODE BEGIN Init */
 
-  /* USER CODE BEGIN Init */
+    /* USER CODE END Init */
 
-  /* USER CODE END Init */
+    /* Configure the system clock */
+    SystemClock_Config();
 
-  /* Configure the system clock */
-  SystemClock_Config();
+    /* USER CODE BEGIN SysInit */
 
-  /* USER CODE BEGIN SysInit */
+    /* USER CODE END SysInit */
 
-  /* USER CODE END SysInit */
-
-  /* Initialize all configured peripherals */
-  MX_GPIO_Init();
-  MX_DMA_Init();
-  MX_I2C1_Init();
-  MX_SPI1_Init();
-  MX_TIM3_Init();
-  MX_TIM2_Init();
-  if (MX_FATFS_Init() != APP_OK) {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN 2 */
+    /* Initialize all configured peripherals */
+    MX_GPIO_Init();
+    MX_DMA_Init();
+    MX_I2C1_Init();
+    MX_SPI1_Init();
+    MX_TIM3_Init();
+    MX_TIM2_Init();
+    if (MX_FATFS_Init() != APP_OK) {
+        Error_Handler();
+    }
+    /* USER CODE BEGIN 2 */
     encoder_init(&encoder, &htim2);
     display_init();
 
@@ -209,11 +218,13 @@ int main(void)
         current_state = &STATE_ERROR;
     }
 
-    current_state->init();
-  /* USER CODE END 2 */
+    display_update(DISPLAY_MODE_PLAYBACK);
 
-  /* Infinite loop */
-  /* USER CODE BEGIN WHILE */
+    current_state->init();
+    /* USER CODE END 2 */
+
+    /* Infinite loop */
+    /* USER CODE BEGIN WHILE */
     while (1) {
         // update the current encoder value
         encoder_poll(&encoder);
@@ -234,57 +245,54 @@ int main(void)
         if (current_state->run) {
             current_state->run(event);
         }
-    /* USER CODE END WHILE */
+        /* USER CODE END WHILE */
 
-    /* USER CODE BEGIN 3 */
+        /* USER CODE BEGIN 3 */
     }
-  /* USER CODE END 3 */
+    /* USER CODE END 3 */
 }
 
 /**
   * @brief System Clock Configuration
   * @retval None
   */
-void SystemClock_Config(void)
-{
-  RCC_OscInitTypeDef RCC_OscInitStruct = {0};
-  RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+void SystemClock_Config(void) {
+    RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+    RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
 
-  /** Configure the main internal regulator output voltage
-  */
-  HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE1);
+    /** Configure the main internal regulator output voltage
+    */
+    HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE1);
 
-  /** Initializes the RCC Oscillators according to the specified parameters
-  * in the RCC_OscInitTypeDef structure.
-  */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
-  RCC_OscInitStruct.HSIState = RCC_HSI_ON;
-  RCC_OscInitStruct.HSIDiv = RCC_HSI_DIV1;
-  RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
-  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
-  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
-  RCC_OscInitStruct.PLL.PLLM = RCC_PLLM_DIV1;
-  RCC_OscInitStruct.PLL.PLLN = 8;
-  RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
-  RCC_OscInitStruct.PLL.PLLQ = RCC_PLLQ_DIV2;
-  RCC_OscInitStruct.PLL.PLLR = RCC_PLLR_DIV2;
-  if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
-  {
-    Error_Handler();
-  }
+    /** Initializes the RCC Oscillators according to the specified parameters
+    * in the RCC_OscInitTypeDef structure.
+    */
+    RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
+    RCC_OscInitStruct.HSIState = RCC_HSI_ON;
+    RCC_OscInitStruct.HSIDiv = RCC_HSI_DIV1;
+    RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
+    RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+    RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
+    RCC_OscInitStruct.PLL.PLLM = RCC_PLLM_DIV1;
+    RCC_OscInitStruct.PLL.PLLN = 8;
+    RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
+    RCC_OscInitStruct.PLL.PLLQ = RCC_PLLQ_DIV2;
+    RCC_OscInitStruct.PLL.PLLR = RCC_PLLR_DIV2;
+    if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK) {
+        Error_Handler();
+    }
 
-  /** Initializes the CPU, AHB and APB buses clocks
-  */
-  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
-                              |RCC_CLOCKTYPE_PCLK1;
-  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
-  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
+    /** Initializes the CPU, AHB and APB buses clocks
+    */
+    RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK
+        | RCC_CLOCKTYPE_PCLK1;
+    RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
+    RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+    RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
 
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
-  {
-    Error_Handler();
-  }
+    if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK) {
+        Error_Handler();
+    }
 }
 
 /* USER CODE BEGIN 4 */
@@ -349,6 +357,98 @@ bool stream_chunk(void) {
     return true;
 }
 
+bool get_mp3_info(void) {
+    uint8_t header[10];
+    UINT br;
+
+    f_lseek(&file, 0);
+    if (f_read(&file, header, 10, &br) != FR_OK || br != 10)
+        return false;
+
+    if (memcmp(header, "ID3", 3) != 0)
+        return false;
+
+    const uint8_t version = header[3]; // 2, 3, or 4
+    const uint32_t tag_size =
+        ((uint32_t)header[6] << 21) |
+        ((uint32_t)header[7] << 14) |
+        ((uint32_t)header[8] << 7) |
+        (uint32_t)header[9];
+
+    uint32_t pos = 10;
+    const uint32_t end = 10 + tag_size;
+
+    f_lseek(&file, pos);
+
+    while (pos + 6 < end) {
+        uint8_t fh[10];
+        const UINT need = (version == 2) ? 6 : 10;
+
+        if (f_read(&file, fh, need, &br) != FR_OK || br != need)
+            return false;
+
+        if (fh[0] == 0) // padding
+            break;
+
+        uint32_t size;
+        bool is_title = false;
+
+        if (version == 2) {
+            is_title = (memcmp(fh, "TT2", 3) == 0);
+            size = (fh[3] << 16) | (fh[4] << 8) | fh[5];
+        }
+        else {
+            is_title = (memcmp(fh, "TIT2", 4) == 0);
+
+            if (version == 4)
+                size = (fh[4] << 21) | (fh[5] << 14) | (fh[6] << 7) | fh[7];
+            else
+                size = (fh[4] << 24) | (fh[5] << 16) | (fh[6] << 8) | fh[7];
+        }
+
+        if (size == 0) {
+            pos += need;
+            f_lseek(&file, pos);
+            continue;
+        }
+
+        if (is_title) {
+            const uint32_t read_len = (size < 64) ? size : 64;
+            uint8_t buff[64];
+
+            if (f_read(&file, buff, read_len, &br) != FR_OK || br != read_len)
+                return false;
+
+            if (buff[0] == 0) {
+                memcpy(mp3_info.title, &buff[1], read_len - 1);
+                mp3_info.title[read_len - 1] = '\0';
+            }
+            else {
+                uint32_t start = 1;
+
+                if (read_len >= 3 && buff[1] == 0xFF && buff[2] == 0xFE)
+                    start = 3;
+
+                uint32_t j = 0;
+                for (uint32_t i = start; i + 1 < read_len && j < 63; i += 2) {
+                    if (buff[i] == 0)
+                        break;
+
+                    mp3_info.title[j++] = buff[i];
+                }
+                mp3_info.title[j] = '\0';
+            }
+
+            return true;
+        }
+
+        pos += need + size;
+        f_lseek(&file, pos);
+    }
+
+    return false;
+}
+
 void open_file(void) {
     const uint8_t* path = track_path(current_track);
 
@@ -364,6 +464,12 @@ void open_file(void) {
             current_error = ERROR_DISK;
             change_state(&STATE_ERROR);
         }
+    }
+
+    if (!get_mp3_info()) {
+        strncpy(mp3_info.title, "UNKNOWN", sizeof(mp3_info.title) - 1);
+        mp3_info.title[sizeof(mp3_info.title) - 1] = '\0';
+        mp3_info.duration = 0;
     }
 }
 
@@ -477,15 +583,22 @@ void display_init(void) {
 void display_update(const DisplayMode_t mode) {
     const uint32_t current_time = HAL_GetTick();
     static uint32_t last_update = 0;
+    static uint8_t scroll_offset = 0;
+    static uint8_t scroll_reset_track = 0;
 
-    const uint16_t current_sec = vs1053_get_decode_time();
+    const uint16_t current_sec = vs1053_get_current_decode_time();
 
     if (last_update != 0 && (current_time - last_update) < 250)
         return;
 
     last_update = current_time;
 
-    uint8_t buffer[19] = {};
+    if (scroll_reset_track != current_track) {
+        scroll_offset = 0;
+        scroll_reset_track = current_track;
+    }
+
+    char buffer[19];
 
     static const char* const title_msg[] = {
         [DISPLAY_MODE_PLAYBACK] = "PLAYBACK >>",
@@ -499,7 +612,6 @@ void display_update(const DisplayMode_t mode) {
 
     ssd1306_Fill(Black);
     ssd1306_SetCursor(0, 0);
-
     ssd1306_WriteString((char*)title_msg[mode], Font_7x10, White);
 
     switch (mode) {
@@ -507,34 +619,71 @@ void display_update(const DisplayMode_t mode) {
         ssd1306_SetCursor(84, 0);
         ssd1306_WriteString(flags.is_playing ? "PLAY" : "PAUSE", Font_7x10, White);
 
-        // Display volume
+        // Volume
         buffer[0] = 'V';
         buffer[1] = 'o';
         buffer[2] = 'l';
-        buffer[3] = ':';
-        buffer[4] = ' ';
+        buffer[3] = 'u';
+        buffer[4] = 'm';
+        buffer[5] = 'e';
+        buffer[6] = ':';
+        buffer[7] = ' ';
 
         if (volume == 100) {
-            buffer[5] = '1';
-            buffer[6] = '0';
-            buffer[7] = '0';
-            buffer[8] = '%';
-            buffer[9] = '\0';
+            buffer[8] = '1';
+            buffer[9] = '0';
+            buffer[10] = '0';
+            buffer[11] = '%';
+            buffer[12] = '\0';
         }
         else {
-            buffer[5] = (volume / 10) + '0';
-            buffer[6] = (volume % 10) + '0';
-            buffer[7] = '%';
-            buffer[8] = '\0';
+            buffer[8] = (volume / 10) + '0';
+            buffer[9] = (volume % 10) + '0';
+            buffer[10] = '%';
+            buffer[11] = '\0';
         }
 
         ssd1306_SetCursor(0, 12);
-        ssd1306_WriteString((char*)buffer, Font_7x10, White);
+        ssd1306_WriteString(buffer, Font_7x10, White);
 
-        // Display current time (hh:mm:ss)
-        const uint16_t hours = current_sec / 3600;
-        const uint8_t minutes = (current_sec % 3600) / 60;
-        const uint8_t seconds = current_sec % 60;
+        // Scrolling title
+        ssd1306_SetCursor(0, 24);
+        const uint8_t title_len = strlen(mp3_info.title);
+
+        if (title_len <= 18) {
+            ssd1306_WriteString(mp3_info.title, Font_7x10, White);
+        }
+        else {
+            static uint8_t scroll_timer = 0;
+            static uint8_t pause_counter = 0;
+
+            // Pause for 2 seconds at start (4 x 500ms updates)
+            if (pause_counter < 4) {
+                pause_counter++;
+                memcpy(buffer, mp3_info.title, 18);
+                buffer[18] = '\0';
+                ssd1306_WriteString(buffer, Font_7x10, White);
+            }
+            else {
+                // Scroll every 500ms (every 2nd update)
+                if (++scroll_timer >= 2) {
+                    scroll_timer = 0;
+                    if (++scroll_offset > title_len - 18) {
+                        scroll_offset = 0;
+                        pause_counter = 0; // Reset pause when wrapping
+                    }
+                }
+
+                memcpy(buffer, &mp3_info.title[scroll_offset], 18);
+                buffer[18] = '\0';
+                ssd1306_WriteString(buffer, Font_7x10, White);
+            }
+        }
+
+        // Current time
+        uint16_t hours = current_sec / 3600;
+        uint8_t minutes = (current_sec % 3600) / 60;
+        uint8_t seconds = current_sec % 60;
 
         buffer[0] = (hours / 10) + '0';
         buffer[1] = (hours % 10) + '0';
@@ -546,10 +695,28 @@ void display_update(const DisplayMode_t mode) {
         buffer[7] = (seconds % 10) + '0';
         buffer[8] = '\0';
 
-        ssd1306_SetCursor(0, 24);
-        ssd1306_WriteString((char*)buffer, Font_7x10, White);
+        ssd1306_SetCursor(0, 36);
+        ssd1306_WriteString(buffer, Font_7x10, White);
 
+        // Duration
+        hours = mp3_info.duration / 3600;
+        minutes = (mp3_info.duration % 3600) / 60;
+        seconds = mp3_info.duration % 60;
+
+        buffer[0] = (hours / 10) + '0';
+        buffer[1] = (hours % 10) + '0';
+        buffer[2] = ':';
+        buffer[3] = (minutes / 10) + '0';
+        buffer[4] = (minutes % 10) + '0';
+        buffer[5] = ':';
+        buffer[6] = (seconds / 10) + '0';
+        buffer[7] = (seconds % 10) + '0';
+        buffer[8] = '\0';
+
+        ssd1306_SetCursor(0, 48);
+        ssd1306_WriteString(buffer, Font_7x10, White);
         break;
+
     case DISPLAY_MODE_ERROR:
         ssd1306_SetCursor(0, 22);
         ssd1306_WriteString((char*)error_msg[current_error], Font_7x10, White);
@@ -638,9 +805,8 @@ Event_t pop_event(void) {
   * @brief  This function is executed in case of error occurrence.
   * @retval None
   */
-void Error_Handler(void)
-{
-  /* USER CODE BEGIN Error_Handler_Debug */
+void Error_Handler(void) {
+    /* USER CODE BEGIN Error_Handler_Debug */
     /* User can add his own implementation to report the HAL error return state */
     __disable_irq();
 
@@ -652,7 +818,7 @@ void Error_Handler(void)
         HAL_GPIO_TogglePin(LD3_GPIO_Port, LD3_Pin);
         for (volatile uint32_t i = 0; i < 2000000; i++);
     }
-  /* USER CODE END Error_Handler_Debug */
+    /* USER CODE END Error_Handler_Debug */
 }
 #ifdef USE_FULL_ASSERT
 /**
@@ -662,11 +828,10 @@ void Error_Handler(void)
   * @param  line: assert_param error line source number
   * @retval None
   */
-void assert_failed(uint8_t *file, uint32_t line)
-{
-  /* USER CODE BEGIN 6 */
+void assert_failed(uint8_t* file, uint32_t line) {
+    /* USER CODE BEGIN 6 */
     /* User can add his own implementation to report the file name and line number,
        ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
-  /* USER CODE END 6 */
+    /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */

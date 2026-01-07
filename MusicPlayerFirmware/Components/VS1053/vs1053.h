@@ -62,6 +62,6 @@ void vs1053_flush_end(void);
 
 void vs1053_start_new_track(void);
 void vs1053_send_data(const uint8_t* data, uint16_t len);
-uint16_t vs1053_get_decode_time();
+uint16_t vs1053_get_current_decode_time(void);
 
 #endif //MUSICPLAYERFIRMWARE_VS1053_H
