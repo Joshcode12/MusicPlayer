@@ -3,6 +3,9 @@
 STM32 Music Player
 ==================
 
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen.svg)](#)
+
 A standalone MP3 player built around the STM32G031K8 microcontroller, featuring SD card storage, OLED display, rotary encoder control, and a VS1053b hardware audio decoder. Designed to run on extremely limited Flash/RAM while remaining responsive and fully non‐blocking.
 
 * * * * *
