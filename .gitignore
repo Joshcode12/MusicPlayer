@@ -1,48 +1,40 @@
-# -------------------------
-# Build artifacts (CMake)
-# -------------------------
-build/
-cmake-build-*/
-CMakeFiles/
-CMakeCache.txt
-Makefile
-*.cmake
-*.a
-*.o
-*.elf
-*.map
-*.bin
-*.hex
+# For PCBs designed using KiCad: https://www.kicad.org/
+# Format documentation: https://kicad.org/help/file-formats/
 
-# -------------------------
-# CLion / JetBrains
-# -------------------------
-.idea/
-*.iml
-out/
+# Temporary files
+*.000
+*.bak
+*.bck
+*.kicad_pcb-bak
+*.kicad_sch-bak
+*-backups
+*-cache*
+*-bak
+*-bak*
+*~
+~*
+_autosave-*
+\#auto_saved_files\#
+*.tmp
+*-save.pro
+*-save.kicad_pcb
+fp-info-cache
+~*.lck
+\#auto_saved_files#
 
-# -------------------------
-# STM32CubeMX generated junk
-# -------------------------
-# CubeMX database backups
-*.ioc-backup
+# Netlist files (exported from Eeschema)
+*.net
 
-# Generated code that should NOT be committed if you regenerate often
-# (optional — some teams commit these)
-MX/
-Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/heap*.c
+# Autorouter files (exported from Pcbnew)
+*.dsn
+*.ses
 
-# -------------------------
-# STM32 build output
-# -------------------------
-Debug/
-Release/
-*.launch
-*.uvoptx
-*.uvprojx
+# Exported BOM files
+*.xml
+*.csv
 
-# -------------------------
-# OS files
-# -------------------------
-.DS_Store
-Thumbs.db
+# Archived Backups (KiCad 6.0)
+**/*-backups/*.zip
+
+# Local project settings
+*.kicad_prl

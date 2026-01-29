@@ -39,7 +39,7 @@
 				(justify left bottom)
 			)
 		)
-		(property "Sheetfile" "USB.kicad_sch"
+		(property "Sheetfile" "MCU.kicad_sch"
 			(at 161.29 76.7846 0)
 			(effects
 				(font
@@ -135,7 +135,7 @@
 		(instances
 			(project "MusicPlayer"
 				(path "/2c2d2da5-7991-4e93-87f2-9633b55e39cf"
-					(page "5")
+					(page "4")
 				)
 			)
 		)
@@ -165,7 +165,7 @@
 				(justify left bottom)
 			)
 		)
-		(property "Sheetfile" "untitled.kicad_sch"
+		(property "Sheetfile" "USB.kicad_sch"
 			(at 60.96 128.8546 0)
 			(effects
 				(font
@@ -177,7 +177,7 @@
 		(instances
 			(project "MusicPlayer"
 				(path "/2c2d2da5-7991-4e93-87f2-9633b55e39cf"
-					(page "4")
+					(page "5")
 				)
 			)
 		)

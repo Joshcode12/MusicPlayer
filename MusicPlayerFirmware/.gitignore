@@ -1,0 +1,48 @@
+# -------------------------
+# Build artifacts (CMake)
+# -------------------------
+build/
+cmake-build-*/
+CMakeFiles/
+CMakeCache.txt
+Makefile
+*.cmake
+*.a
+*.o
+*.elf
+*.map
+*.bin
+*.hex
+
+# -------------------------
+# CLion / JetBrains
+# -------------------------
+.idea/
+*.iml
+out/
+
+# -------------------------
+# STM32CubeMX generated junk
+# -------------------------
+# CubeMX database backups
+*.ioc-backup
+
+# Generated code that should NOT be committed if you regenerate often
+# (optional — some teams commit these)
+MX/
+Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/heap*.c
+
+# -------------------------
+# STM32 build output
+# -------------------------
+Debug/
+Release/
+*.launch
+*.uvoptx
+*.uvprojx
+
+# -------------------------
+# OS files
+# -------------------------
+.DS_Store
+Thumbs.db
