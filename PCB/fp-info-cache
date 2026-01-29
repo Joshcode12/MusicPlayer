@@ -1,4 +1,4 @@
-27220787377416241
+27224326734400348
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -60176,8 +60176,22 @@ Music_Maker_Feather_Wing
 
 
 0
-55
-30
+53
+28
+CustomFootprints
+RotaryEncoder_Alps_EC11E_Vertical_H20mm
+Alps rotary encoder, EC11E... without switch (pins are dummy), vertical shaft, http://www.alps.com/prod/info/E/HTML/Encoder/Incremental/EC11/EC11E15204A3.html
+rotary encoder
+0
+7
+3
+CustomFootprints
+SSD1306_128x64
+
+
+0
+4
+0
 Diode_SMD
 D_0201_0603Metric
 Diode SMD 0201 (0603 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: https://www.vishay.com/docs/20052/crcw0201e3.pdf), generated with kicad-footprint-generator

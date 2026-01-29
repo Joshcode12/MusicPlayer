@@ -523,7 +523,7 @@
           "group_by": false,
           "label": "Qty",
           "name": "${QUANTITY}",
-          "show": true
+          "show": false
         },
         {
           "group_by": true,
@@ -565,7 +565,7 @@
           "group_by": false,
           "label": "Description",
           "name": "Description",
-          "show": false
+          "show": true
         },
         {
           "group_by": false,
@@ -577,13 +577,7 @@
           "group_by": false,
           "label": "LCSC",
           "name": "LCSC",
-          "show": false
-        },
-        {
-          "group_by": false,
-          "label": "LSCS",
-          "name": "LSCS",
-          "show": false
+          "show": true
         },
         {
           "group_by": false,
@@ -596,8 +590,8 @@
       "group_symbols": true,
       "include_excluded_from_bom": true,
       "name": "",
-      "sort_asc": true,
-      "sort_field": "${EXCLUDE_FROM_BOM}"
+      "sort_asc": false,
+      "sort_field": "Sim.Pins"
     },
     "connection_grid_size": 50.0,
     "drawing": {
@@ -643,6 +637,26 @@
     [
       "2c2d2da5-7991-4e93-87f2-9633b55e39cf",
       "Root"
+    ],
+    [
+      "45aa0140-352d-4ae6-a5c1-9b7fd6e738ab",
+      "Power"
+    ],
+    [
+      "2b989cff-e6b1-4597-929c-ae14c42c2e68",
+      "MCU"
+    ],
+    [
+      "87fde085-6ff4-4e87-8cdf-89f94cb0cfa0",
+      "USB"
+    ],
+    [
+      "572bfe0a-fba1-492f-9251-f1d6ec877dd8",
+      "Inputs"
+    ],
+    [
+      "8914b658-f110-43b5-977c-c23f35b79243",
+      "Outputs"
     ]
   ],
   "text_variables": {}
