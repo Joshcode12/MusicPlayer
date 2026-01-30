@@ -15,7 +15,7 @@
 	)
 	(lib_symbols)
 	(sheet
-		(at 161.29 38.1)
+		(at 165.1 38.1)
 		(size 50.8 38.1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -31,7 +31,7 @@
 		)
 		(uuid "2b989cff-e6b1-4597-929c-ae14c42c2e68")
 		(property "Sheetname" "MCU"
-			(at 161.29 37.3884 0)
+			(at 165.1 37.3884 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -40,7 +40,7 @@
 			)
 		)
 		(property "Sheetfile" "MCU.kicad_sch"
-			(at 161.29 76.7846 0)
+			(at 165.1 76.7846 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -57,7 +57,7 @@
 		)
 	)
 	(sheet
-		(at 60.96 39.37)
+		(at 63.5 38.1)
 		(size 50.8 38.1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -73,7 +73,7 @@
 		)
 		(uuid "45aa0140-352d-4ae6-a5c1-9b7fd6e738ab")
 		(property "Sheetname" "Power"
-			(at 60.96 38.6584 0)
+			(at 63.5 37.3884 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -82,7 +82,7 @@
 			)
 		)
 		(property "Sheetfile" "Power.kicad_sch"
-			(at 60.96 78.0546 0)
+			(at 63.5 76.7846 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -99,7 +99,7 @@
 		)
 	)
 	(sheet
-		(at 161.29 88.9)
+		(at 165.1 88.9)
 		(size 50.8 38.1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -115,7 +115,7 @@
 		)
 		(uuid "572bfe0a-fba1-492f-9251-f1d6ec877dd8")
 		(property "Sheetname" "Inputs"
-			(at 161.29 88.1884 0)
+			(at 165.1 88.1884 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -124,7 +124,7 @@
 			)
 		)
 		(property "Sheetfile" "Inputs.kicad_sch"
-			(at 161.29 127.5846 0)
+			(at 165.1 127.5846 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -141,7 +141,7 @@
 		)
 	)
 	(sheet
-		(at 60.96 90.17)
+		(at 63.5 88.9)
 		(size 50.8 38.1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -157,7 +157,7 @@
 		)
 		(uuid "87fde085-6ff4-4e87-8cdf-89f94cb0cfa0")
 		(property "Sheetname" "USB"
-			(at 60.96 89.4584 0)
+			(at 63.5 88.1884 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -166,7 +166,7 @@
 			)
 		)
 		(property "Sheetfile" "USB.kicad_sch"
-			(at 60.96 128.8546 0)
+			(at 63.5 127.5846 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -183,7 +183,7 @@
 		)
 	)
 	(sheet
-		(at 60.96 140.97)
+		(at 63.5 139.7)
 		(size 50.8 38.1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -199,7 +199,7 @@
 		)
 		(uuid "8914b658-f110-43b5-977c-c23f35b79243")
 		(property "Sheetname" "Outputs"
-			(at 60.96 140.2584 0)
+			(at 63.5 138.9884 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -208,7 +208,7 @@
 			)
 		)
 		(property "Sheetfile" "Outputs.kicad_sch"
-			(at 60.96 179.6546 0)
+			(at 63.5 178.3846 0)
 			(effects
 				(font
 					(size 1.27 1.27)
