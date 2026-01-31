@@ -1049,7 +1049,7 @@
 		(at 67.31 78.74)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "32e985f0-b22e-4fb4-88ec-d4dcf4e74b30")
+		(uuid "e7506bdd-9a68-49ec-89d0-a609efdaa5cc")
 	)
 	(no_connect
 		(at 63.5 109.22)
@@ -1115,6 +1115,26 @@
 	)
 	(wire
 		(pts
+			(xy 67.31 78.74) (xy 71.12 78.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3be5f533-7c91-44e4-a8b4-c3bab485c087")
+	)
+	(wire
+		(pts
+			(xy 67.31 78.74) (xy 67.31 74.93)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "50600a29-ad74-4259-8a66-fc817b45ada0")
+	)
+	(wire
+		(pts
 			(xy 48.26 116.84) (xy 48.26 120.65)
 		)
 		(stroke
@@ -1135,16 +1155,6 @@
 	)
 	(wire
 		(pts
-			(xy 67.31 78.74) (xy 67.31 74.93)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "9c12f199-a92d-4ffd-b2ca-351326740ba1")
-	)
-	(wire
-		(pts
 			(xy 40.64 116.84) (xy 40.64 120.65)
 		)
 		(stroke
@@ -1152,16 +1162,6 @@
 			(type default)
 		)
 		(uuid "b44caec6-8df6-4559-9a18-eb60a8bc6508")
-	)
-	(wire
-		(pts
-			(xy 67.31 78.74) (xy 71.12 78.74)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "eb2523eb-57b0-4c65-942b-097b1777176c")
 	)
 	(symbol
 		(lib_id "Connector:USB_C_Receptacle_USB2.0_16P")
@@ -1292,9 +1292,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "236ce02d-2d82-48d0-b823-6a4a88eaebea")
-		(property "Reference" "#FLG02"
+		(uuid "66350698-f3e9-4b3e-9382-49d512a0be7e")
+		(property "Reference" "#FLG03"
 			(at 67.31 73.025 0)
 			(effects
 				(font
@@ -1304,7 +1303,7 @@
 			)
 		)
 		(property "Value" "PWR_FLAG"
-			(at 67.3099 71.12 90)
+			(at 62.738 70.866 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1340,12 +1339,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "7661eae4-c0cb-4f72-9455-d7bd5b89bf03")
+			(uuid "9f49bc3b-5ff6-4518-8529-3b02f36a2a90")
 		)
 		(instances
 			(project "MusicPlayer"
 				(path "/2c2d2da5-7991-4e93-87f2-9633b55e39cf/87fde085-6ff4-4e87-8cdf-89f94cb0cfa0"
-					(reference "#FLG02")
+					(reference "#FLG03")
 					(unit 1)
 				)
 			)

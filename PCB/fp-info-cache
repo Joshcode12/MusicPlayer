@@ -1,4 +1,4 @@
-27226096478875458
+27229636185015625
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -60178,6 +60178,20 @@ D_SOD-123FL
 0
 2
 2
+CustomFootprints
+L_10.2x10
+
+
+0
+2
+2
+CustomFootprints
+MS-22D28-G
+
+
+0
+0
+0
 CustomFootprints
 Music_Maker_Feather_Wing
 
