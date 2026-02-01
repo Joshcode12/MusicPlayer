@@ -3060,127 +3060,6 @@
 		)
 	)
 	(symbol
-		(lib_id "Connector:USB_C_Receptacle_USB2.0_16P")
-		(at 48.26 93.98 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "02293f31-88b1-4995-8ab9-412f81e72f3b")
-		(property "Reference" "J2"
-			(at 48.26 71.12 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "USB_C_Receptacle_USB2.0_16P"
-			(at 48.26 73.66 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Connector_USB:USB_C_Receptacle_G-Switch_GT-USB-7010ASV"
-			(at 52.07 93.98 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "https://www.usb.org/sites/default/files/documents/usb_type-c.zip"
-			(at 52.07 93.98 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "USB 2.0-only 16P Type-C Receptacle connector"
-			(at 48.26 93.98 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "LCSC" "C2988369"
-			(at 48.26 93.98 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "A6"
-			(uuid "c602f767-cc3b-4b5d-b2b9-bd1533a4b6cc")
-		)
-		(pin "S1"
-			(uuid "ded41b61-930b-4a2c-9976-8e2a8914680c")
-		)
-		(pin "B5"
-			(uuid "d1e425d1-2285-4f70-a448-60be02ad637f")
-		)
-		(pin "A9"
-			(uuid "8f0b65dd-6716-4632-bcb8-dadef5544096")
-		)
-		(pin "A1"
-			(uuid "925f9494-1e94-49f1-949a-3fe19ab8d7a7")
-		)
-		(pin "B12"
-			(uuid "6e0bbd33-f785-4492-a583-32324f1f4b0e")
-		)
-		(pin "B4"
-			(uuid "2ac87f6c-0fdb-49cb-a4b7-e4b16cd3b549")
-		)
-		(pin "B9"
-			(uuid "fa089cce-4d6a-4fd1-b7e5-f7bd16d16c40")
-		)
-		(pin "A7"
-			(uuid "72974955-3bf1-4564-a88d-fd839553b8d5")
-		)
-		(pin "A5"
-			(uuid "98e64a3c-50fa-4706-acb3-39aa6a84e113")
-		)
-		(pin "A4"
-			(uuid "d9cae828-eac9-4d2e-995f-8b1bead933ec")
-		)
-		(pin "B7"
-			(uuid "8e19c098-57c7-4369-bcf7-b9eb610dcef7")
-		)
-		(pin "A12"
-			(uuid "5c68c704-fc02-4105-9aa0-873b5e757e43")
-		)
-		(pin "B1"
-			(uuid "a249e3ed-dc98-4d1f-a373-399769a26c2a")
-		)
-		(pin "B6"
-			(uuid "764f706a-342d-4ff9-be1d-2ca877e4ecf6")
-		)
-		(pin "A8"
-			(uuid "6a9b61d0-a15e-4534-a9e5-835bb216f628")
-		)
-		(pin "B8"
-			(uuid "da4eb51c-665f-4189-8243-ec33da32db7b")
-		)
-		(instances
-			(project ""
-				(path "/2c2d2da5-7991-4e93-87f2-9633b55e39cf/87fde085-6ff4-4e87-8cdf-89f94cb0cfa0"
-					(reference "J2")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Device:C")
 		(at 80.01 71.12 0)
 		(unit 1)
@@ -3207,7 +3086,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0201_0603Metric"
+		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
 			(at 80.9752 74.93 0)
 			(effects
 				(font
@@ -3284,7 +3163,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Resistor_SMD:R_0201_0603Metric"
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
 			(at 82.55 90.678 90)
 			(effects
 				(font
@@ -3625,7 +3504,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0201_0603Metric"
+		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
 			(at 68.2752 74.93 0)
 			(effects
 				(font
@@ -3956,7 +3835,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0201_0603Metric"
+		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
 			(at 93.6752 74.93 0)
 			(effects
 				(font
@@ -4034,7 +3913,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0201_0603Metric"
+		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
 			(at 100.33 109.5248 0)
 			(effects
 				(font
@@ -4217,6 +4096,119 @@
 		)
 	)
 	(symbol
+		(lib_id "Connector:USB_C_Receptacle_USB2.0_16P")
+		(at 48.26 93.98 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "8fe55572-78bc-4bad-8eb4-7f449d17086c")
+		(property "Reference" "J2"
+			(at 48.26 71.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "USB_C_Receptacle_USB2.0_16P"
+			(at 48.26 73.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Connector_USB:USB_C_Receptacle_G-Switch_GT-USB-7010ASV"
+			(at 52.07 93.98 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.usb.org/sites/default/files/documents/usb_type-c.zip"
+			(at 52.07 93.98 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "USB 2.0-only 16P Type-C Receptacle connector"
+			(at 48.26 93.98 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "B9"
+			(uuid "120d8311-73d6-486e-975d-b1cafb12b625")
+		)
+		(pin "A1"
+			(uuid "e7b0d29e-d4c0-4583-aa7e-9fe0ea164edf")
+		)
+		(pin "B12"
+			(uuid "83aeb8cd-a259-4c51-8350-45b5efeb6114")
+		)
+		(pin "A9"
+			(uuid "f6600f8b-a6dd-4089-985d-50a2982fbca6")
+		)
+		(pin "B4"
+			(uuid "5baf36e1-602f-4a37-bf78-18e7080281dc")
+		)
+		(pin "A12"
+			(uuid "0ab166f7-5417-4c10-b701-5524bbb99c90")
+		)
+		(pin "B1"
+			(uuid "b5ebdecf-9944-494f-b009-0587ab95a80c")
+		)
+		(pin "S1"
+			(uuid "671a815f-dfca-4d26-8eb3-6bf25d733e0d")
+		)
+		(pin "A4"
+			(uuid "ab8e39d9-0887-4a59-b1cd-6cbedf4e046a")
+		)
+		(pin "A5"
+			(uuid "f4ca41cc-a34b-473c-b7e3-e70f6f7e0bf4")
+		)
+		(pin "A6"
+			(uuid "23b6de1c-663b-417e-97bb-bd76ab75f3b7")
+		)
+		(pin "B6"
+			(uuid "8dcf40d6-1f81-425f-82db-cbe1e045e905")
+		)
+		(pin "B5"
+			(uuid "dc354cac-508a-48bc-bd36-67879997020b")
+		)
+		(pin "A8"
+			(uuid "57effb78-7059-478c-88c4-7c23526f1106")
+		)
+		(pin "B8"
+			(uuid "3164a9b9-cdbb-4c5a-8e40-eeb184fb4733")
+		)
+		(pin "B7"
+			(uuid "8f08fb4d-0add-45d9-8596-550f082aa6eb")
+		)
+		(pin "A7"
+			(uuid "a932eae5-d2a7-4a96-94a7-e6bb3c4d8b98")
+		)
+		(instances
+			(project ""
+				(path "/2c2d2da5-7991-4e93-87f2-9633b55e39cf/87fde085-6ff4-4e87-8cdf-89f94cb0cfa0"
+					(reference "J2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:C")
 		(at 199.39 95.25 90)
 		(unit 1)
@@ -4243,7 +4235,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0201_0603Metric"
+		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
 			(at 203.2 94.2848 0)
 			(effects
 				(font
@@ -4746,7 +4738,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Resistor_SMD:R_0201_0603Metric"
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
 			(at 82.55 93.218 90)
 			(effects
 				(font
@@ -4824,7 +4816,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0201_0603Metric"
+		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
 			(at 203.2 81.5848 0)
 			(effects
 				(font
