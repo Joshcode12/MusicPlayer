@@ -4707,7 +4707,7 @@
 			)
 			(project "Power"
 				(path "/f49b6440-2273-4106-89d9-d58e17617669"
-					(reference "#PWR?")
+					(reference "#PWR01")
 					(unit 1)
 				)
 			)
@@ -4774,6 +4774,12 @@
 			(project "MusicPlayer"
 				(path "/2c2d2da5-7991-4e93-87f2-9633b55e39cf/45aa0140-352d-4ae6-a5c1-9b7fd6e738ab"
 					(reference "#PWR0103")
+					(unit 1)
+				)
+			)
+			(project "Power"
+				(path "/f49b6440-2273-4106-89d9-d58e17617669"
+					(reference "#PWR03")
 					(unit 1)
 				)
 			)
@@ -4875,6 +4881,12 @@
 					(unit 1)
 				)
 			)
+			(project "Power"
+				(path "/f49b6440-2273-4106-89d9-d58e17617669"
+					(reference "U3")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -4952,6 +4964,12 @@
 					(unit 1)
 				)
 			)
+			(project "Power"
+				(path "/f49b6440-2273-4106-89d9-d58e17617669"
+					(reference "R3")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -5016,6 +5034,12 @@
 			(project "MusicPlayer"
 				(path "/2c2d2da5-7991-4e93-87f2-9633b55e39cf/45aa0140-352d-4ae6-a5c1-9b7fd6e738ab"
 					(reference "#PWR023")
+					(unit 1)
+				)
+			)
+			(project "Power"
+				(path "/f49b6440-2273-4106-89d9-d58e17617669"
+					(reference "#PWR024")
 					(unit 1)
 				)
 			)
@@ -5098,6 +5122,12 @@
 					(unit 1)
 				)
 			)
+			(project "Power"
+				(path "/f49b6440-2273-4106-89d9-d58e17617669"
+					(reference "R9")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -5161,6 +5191,12 @@
 			(project "MusicPlayer"
 				(path "/2c2d2da5-7991-4e93-87f2-9633b55e39cf/45aa0140-352d-4ae6-a5c1-9b7fd6e738ab"
 					(reference "#PWR026")
+					(unit 1)
+				)
+			)
+			(project "Power"
+				(path "/f49b6440-2273-4106-89d9-d58e17617669"
+					(reference "#PWR05")
 					(unit 1)
 				)
 			)
@@ -5234,7 +5270,7 @@
 			)
 			(project "Power"
 				(path "/f49b6440-2273-4106-89d9-d58e17617669"
-					(reference "#PWR?")
+					(reference "#PWR021")
 					(unit 1)
 				)
 			)
@@ -5318,7 +5354,7 @@
 			)
 			(project "Power"
 				(path "/f49b6440-2273-4106-89d9-d58e17617669"
-					(reference "C?")
+					(reference "C6")
 					(unit 1)
 				)
 			)
@@ -5332,7 +5368,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "17615183-d347-48b0-acad-2613f1058bc9")
+		(uuid "17615183-d347-48b0-acad-2613f1058bca")
 		(property "Reference" "C16"
 			(at 196.85 116.8399 0)
 			(effects
@@ -5388,15 +5424,21 @@
 			)
 		)
 		(pin "1"
-			(uuid "97172534-01b7-4b94-8a26-057e2c656406")
+			(uuid "97172534-01b7-4b94-8a26-057e2c656407")
 		)
 		(pin "2"
-			(uuid "52e5fddf-019c-4d40-8cb1-7c38b2464348")
+			(uuid "52e5fddf-019c-4d40-8cb1-7c38b2464349")
 		)
 		(instances
 			(project "MusicPlayer"
 				(path "/2c2d2da5-7991-4e93-87f2-9633b55e39cf/45aa0140-352d-4ae6-a5c1-9b7fd6e738ab"
 					(reference "C16")
+					(unit 1)
+				)
+			)
+			(project "Power"
+				(path "/f49b6440-2273-4106-89d9-d58e17617669"
+					(reference "C5")
 					(unit 1)
 				)
 			)
@@ -5467,6 +5509,12 @@
 					(unit 1)
 				)
 			)
+			(project "Power"
+				(path "/f49b6440-2273-4106-89d9-d58e17617669"
+					(reference "#PWR033")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -5530,6 +5578,12 @@
 			(project "MusicPlayer"
 				(path "/2c2d2da5-7991-4e93-87f2-9633b55e39cf/45aa0140-352d-4ae6-a5c1-9b7fd6e738ab"
 					(reference "#PWR024")
+					(unit 1)
+				)
+			)
+			(project "Power"
+				(path "/f49b6440-2273-4106-89d9-d58e17617669"
+					(reference "#PWR07")
 					(unit 1)
 				)
 			)
@@ -5598,6 +5652,12 @@
 					(unit 1)
 				)
 			)
+			(project "Power"
+				(path "/f49b6440-2273-4106-89d9-d58e17617669"
+					(reference "#PWR029")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -5661,6 +5721,12 @@
 			(project "MusicPlayer"
 				(path "/2c2d2da5-7991-4e93-87f2-9633b55e39cf/45aa0140-352d-4ae6-a5c1-9b7fd6e738ab"
 					(reference "#PWR0104")
+					(unit 1)
+				)
+			)
+			(project "Power"
+				(path "/f49b6440-2273-4106-89d9-d58e17617669"
+					(reference "#PWR02")
 					(unit 1)
 				)
 			)
@@ -5732,7 +5798,7 @@
 			)
 			(project "Power"
 				(path "/f49b6440-2273-4106-89d9-d58e17617669"
-					(reference "#PWR?")
+					(reference "#PWR015")
 					(unit 1)
 				)
 			)
@@ -5811,6 +5877,12 @@
 			(project "MusicPlayer"
 				(path "/2c2d2da5-7991-4e93-87f2-9633b55e39cf/45aa0140-352d-4ae6-a5c1-9b7fd6e738ab"
 					(reference "C2")
+					(unit 1)
+				)
+			)
+			(project "Power"
+				(path "/f49b6440-2273-4106-89d9-d58e17617669"
+					(reference "C3")
 					(unit 1)
 				)
 			)
@@ -5894,7 +5966,7 @@
 			)
 			(project "Power"
 				(path "/f49b6440-2273-4106-89d9-d58e17617669"
-					(reference "J?")
+					(reference "J1")
 					(unit 1)
 				)
 			)
@@ -6007,6 +6079,12 @@
 					(unit 1)
 				)
 			)
+			(project "Power"
+				(path "/f49b6440-2273-4106-89d9-d58e17617669"
+					(reference "Q2")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -6087,7 +6165,7 @@
 			)
 			(project "Power"
 				(path "/f49b6440-2273-4106-89d9-d58e17617669"
-					(reference "C?")
+					(reference "C7")
 					(unit 1)
 				)
 			)
@@ -6154,6 +6232,12 @@
 			(project ""
 				(path "/2c2d2da5-7991-4e93-87f2-9633b55e39cf/45aa0140-352d-4ae6-a5c1-9b7fd6e738ab"
 					(reference "#PWR018")
+					(unit 1)
+				)
+			)
+			(project "Power"
+				(path "/f49b6440-2273-4106-89d9-d58e17617669"
+					(reference "#PWR020")
 					(unit 1)
 				)
 			)
@@ -6230,6 +6314,12 @@
 		(instances
 			(project ""
 				(path "/2c2d2da5-7991-4e93-87f2-9633b55e39cf/45aa0140-352d-4ae6-a5c1-9b7fd6e738ab"
+					(reference "R5")
+					(unit 1)
+				)
+			)
+			(project "Power"
+				(path "/f49b6440-2273-4106-89d9-d58e17617669"
 					(reference "R5")
 					(unit 1)
 				)
@@ -6312,6 +6402,12 @@
 					(unit 1)
 				)
 			)
+			(project "Power"
+				(path "/f49b6440-2273-4106-89d9-d58e17617669"
+					(reference "D4")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -6380,7 +6476,7 @@
 			)
 			(project "Power"
 				(path "/f49b6440-2273-4106-89d9-d58e17617669"
-					(reference "#PWR?")
+					(reference "#PWR017")
 					(unit 1)
 				)
 			)
@@ -6463,7 +6559,7 @@
 			)
 			(project "Power"
 				(path "/f49b6440-2273-4106-89d9-d58e17617669"
-					(reference "L?")
+					(reference "L1")
 					(unit 1)
 				)
 			)
@@ -6529,6 +6625,12 @@
 			(project "MusicPlayer"
 				(path "/2c2d2da5-7991-4e93-87f2-9633b55e39cf/45aa0140-352d-4ae6-a5c1-9b7fd6e738ab"
 					(reference "#PWR055")
+					(unit 1)
+				)
+			)
+			(project "Power"
+				(path "/f49b6440-2273-4106-89d9-d58e17617669"
+					(reference "#PWR031")
 					(unit 1)
 				)
 			)
@@ -6611,6 +6713,12 @@
 					(unit 1)
 				)
 			)
+			(project "Power"
+				(path "/f49b6440-2273-4106-89d9-d58e17617669"
+					(reference "D3")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -6687,6 +6795,12 @@
 			(project "MusicPlayer"
 				(path "/2c2d2da5-7991-4e93-87f2-9633b55e39cf/45aa0140-352d-4ae6-a5c1-9b7fd6e738ab"
 					(reference "R7")
+					(unit 1)
+				)
+			)
+			(project "Power"
+				(path "/f49b6440-2273-4106-89d9-d58e17617669"
+					(reference "R10")
 					(unit 1)
 				)
 			)
@@ -6771,7 +6885,7 @@
 			)
 			(project "Power"
 				(path "/f49b6440-2273-4106-89d9-d58e17617669"
-					(reference "R?")
+					(reference "R11")
 					(unit 1)
 				)
 			)
@@ -6843,7 +6957,7 @@
 			)
 			(project "Power"
 				(path "/f49b6440-2273-4106-89d9-d58e17617669"
-					(reference "#PWR?")
+					(reference "#PWR011")
 					(unit 1)
 				)
 			)
@@ -6916,7 +7030,7 @@
 			)
 			(project "Power"
 				(path "/f49b6440-2273-4106-89d9-d58e17617669"
-					(reference "#PWR?")
+					(reference "#PWR022")
 					(unit 1)
 				)
 			)
@@ -6989,7 +7103,7 @@
 			)
 			(project "Power"
 				(path "/f49b6440-2273-4106-89d9-d58e17617669"
-					(reference "#PWR?")
+					(reference "#PWR019")
 					(unit 1)
 				)
 			)
@@ -7058,6 +7172,12 @@
 			(project "MusicPlayer"
 				(path "/2c2d2da5-7991-4e93-87f2-9633b55e39cf/45aa0140-352d-4ae6-a5c1-9b7fd6e738ab"
 					(reference "#PWR0101")
+					(unit 1)
+				)
+			)
+			(project "Power"
+				(path "/f49b6440-2273-4106-89d9-d58e17617669"
+					(reference "#PWR014")
 					(unit 1)
 				)
 			)
@@ -7130,7 +7250,7 @@
 			)
 			(project "Power"
 				(path "/f49b6440-2273-4106-89d9-d58e17617669"
-					(reference "#PWR?")
+					(reference "#PWR08")
 					(unit 1)
 				)
 			)
@@ -7215,7 +7335,7 @@
 			)
 			(project "Power"
 				(path "/f49b6440-2273-4106-89d9-d58e17617669"
-					(reference "R?")
+					(reference "R8")
 					(unit 1)
 				)
 			)
@@ -7296,6 +7416,12 @@
 					(unit 1)
 				)
 			)
+			(project "Power"
+				(path "/f49b6440-2273-4106-89d9-d58e17617669"
+					(reference "R6")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -7358,6 +7484,12 @@
 			(project "MusicPlayer"
 				(path "/2c2d2da5-7991-4e93-87f2-9633b55e39cf/45aa0140-352d-4ae6-a5c1-9b7fd6e738ab"
 					(reference "#PWR054")
+					(unit 1)
+				)
+			)
+			(project "Power"
+				(path "/f49b6440-2273-4106-89d9-d58e17617669"
+					(reference "#PWR032")
 					(unit 1)
 				)
 			)
@@ -7429,7 +7561,7 @@
 			)
 			(project "Power"
 				(path "/f49b6440-2273-4106-89d9-d58e17617669"
-					(reference "#PWR?")
+					(reference "#PWR026")
 					(unit 1)
 				)
 			)
@@ -7514,7 +7646,7 @@
 			)
 			(project "Power"
 				(path "/f49b6440-2273-4106-89d9-d58e17617669"
-					(reference "R?")
+					(reference "R12")
 					(unit 1)
 				)
 			)
@@ -7587,7 +7719,7 @@
 			)
 			(project "Power"
 				(path "/f49b6440-2273-4106-89d9-d58e17617669"
-					(reference "#PWR?")
+					(reference "#PWR034")
 					(unit 1)
 				)
 			)
@@ -7659,7 +7791,7 @@
 			)
 			(project "Power"
 				(path "/f49b6440-2273-4106-89d9-d58e17617669"
-					(reference "#PWR?")
+					(reference "#PWR012")
 					(unit 1)
 				)
 			)
@@ -7743,6 +7875,12 @@
 					(unit 1)
 				)
 			)
+			(project "Power"
+				(path "/f49b6440-2273-4106-89d9-d58e17617669"
+					(reference "U4")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -7822,6 +7960,12 @@
 					(unit 1)
 				)
 			)
+			(project "Power"
+				(path "/f49b6440-2273-4106-89d9-d58e17617669"
+					(reference "C1")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -7884,6 +8028,12 @@
 			(project "MusicPlayer"
 				(path "/2c2d2da5-7991-4e93-87f2-9633b55e39cf/45aa0140-352d-4ae6-a5c1-9b7fd6e738ab"
 					(reference "#PWR053")
+					(unit 1)
+				)
+			)
+			(project "Power"
+				(path "/f49b6440-2273-4106-89d9-d58e17617669"
+					(reference "#PWR027")
 					(unit 1)
 				)
 			)
@@ -7964,6 +8114,12 @@
 					(unit 1)
 				)
 			)
+			(project "Power"
+				(path "/f49b6440-2273-4106-89d9-d58e17617669"
+					(reference "R2")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -8021,7 +8177,7 @@
 			)
 		)
 		(pin "1"
-			(uuid "63d8ec2d-7842-427d-8cdc-9a6aefdfef60")
+			(uuid "63d8ec2d-7842-427d-8cdc-9a6aefdfef61")
 		)
 		(instances
 			(project ""
@@ -8032,7 +8188,7 @@
 			)
 			(project "Power"
 				(path "/f49b6440-2273-4106-89d9-d58e17617669"
-					(reference "#PWR?")
+					(reference "#PWR030")
 					(unit 1)
 				)
 			)
@@ -8112,6 +8268,12 @@
 			(project ""
 				(path "/2c2d2da5-7991-4e93-87f2-9633b55e39cf/45aa0140-352d-4ae6-a5c1-9b7fd6e738ab"
 					(reference "C3")
+					(unit 1)
+				)
+			)
+			(project "Power"
+				(path "/f49b6440-2273-4106-89d9-d58e17617669"
+					(reference "C4")
 					(unit 1)
 				)
 			)
@@ -8196,7 +8358,7 @@
 			)
 			(project "Power"
 				(path "/f49b6440-2273-4106-89d9-d58e17617669"
-					(reference "R?")
+					(reference "R7")
 					(unit 1)
 				)
 			)
@@ -8288,6 +8450,12 @@
 					(unit 1)
 				)
 			)
+			(project "Power"
+				(path "/f49b6440-2273-4106-89d9-d58e17617669"
+					(reference "D2")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -8367,6 +8535,12 @@
 					(unit 1)
 				)
 			)
+			(project "Power"
+				(path "/f49b6440-2273-4106-89d9-d58e17617669"
+					(reference "C2")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -8431,6 +8605,12 @@
 			(project ""
 				(path "/2c2d2da5-7991-4e93-87f2-9633b55e39cf/45aa0140-352d-4ae6-a5c1-9b7fd6e738ab"
 					(reference "#PWR015")
+					(unit 1)
+				)
+			)
+			(project "Power"
+				(path "/f49b6440-2273-4106-89d9-d58e17617669"
+					(reference "#PWR018")
 					(unit 1)
 				)
 			)
@@ -8513,6 +8693,12 @@
 					(unit 1)
 				)
 			)
+			(project "Power"
+				(path "/f49b6440-2273-4106-89d9-d58e17617669"
+					(reference "R4")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -8581,7 +8767,7 @@
 			)
 			(project "Power"
 				(path "/f49b6440-2273-4106-89d9-d58e17617669"
-					(reference "#PWR?")
+					(reference "#PWR013")
 					(unit 1)
 				)
 			)
@@ -8711,7 +8897,7 @@
 			)
 			(project "Power"
 				(path "/f49b6440-2273-4106-89d9-d58e17617669"
-					(reference "U?")
+					(reference "U1")
 					(unit 1)
 				)
 			)
@@ -8783,7 +8969,7 @@
 			)
 			(project "Power"
 				(path "/f49b6440-2273-4106-89d9-d58e17617669"
-					(reference "#PWR?")
+					(reference "#PWR09")
 					(unit 1)
 				)
 			)
@@ -8851,6 +9037,12 @@
 			(project "MusicPlayer"
 				(path "/2c2d2da5-7991-4e93-87f2-9633b55e39cf/45aa0140-352d-4ae6-a5c1-9b7fd6e738ab"
 					(reference "#PWR09")
+					(unit 1)
+				)
+			)
+			(project "Power"
+				(path "/f49b6440-2273-4106-89d9-d58e17617669"
+					(reference "#PWR023")
 					(unit 1)
 				)
 			)
@@ -8963,6 +9155,12 @@
 					(unit 1)
 				)
 			)
+			(project "Power"
+				(path "/f49b6440-2273-4106-89d9-d58e17617669"
+					(reference "Q1")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -9028,6 +9226,12 @@
 			(project "MusicPlayer"
 				(path "/2c2d2da5-7991-4e93-87f2-9633b55e39cf/45aa0140-352d-4ae6-a5c1-9b7fd6e738ab"
 					(reference "#PWR052")
+					(unit 1)
+				)
+			)
+			(project "Power"
+				(path "/f49b6440-2273-4106-89d9-d58e17617669"
+					(reference "#PWR025")
 					(unit 1)
 				)
 			)
@@ -9099,7 +9303,7 @@
 			)
 			(project "Power"
 				(path "/f49b6440-2273-4106-89d9-d58e17617669"
-					(reference "#PWR?")
+					(reference "#PWR016")
 					(unit 1)
 				)
 			)
@@ -9170,6 +9374,12 @@
 			(project "MusicPlayer"
 				(path "/2c2d2da5-7991-4e93-87f2-9633b55e39cf/45aa0140-352d-4ae6-a5c1-9b7fd6e738ab"
 					(reference "R10")
+					(unit 1)
+				)
+			)
+			(project "Power"
+				(path "/f49b6440-2273-4106-89d9-d58e17617669"
+					(reference "R1")
 					(unit 1)
 				)
 			)
@@ -9263,7 +9473,7 @@
 			)
 			(project "Power"
 				(path "/f49b6440-2273-4106-89d9-d58e17617669"
-					(reference "D?")
+					(reference "D1")
 					(unit 1)
 				)
 			)
@@ -9329,6 +9539,12 @@
 			(project "MusicPlayer"
 				(path "/2c2d2da5-7991-4e93-87f2-9633b55e39cf/45aa0140-352d-4ae6-a5c1-9b7fd6e738ab"
 					(reference "#PWR046")
+					(unit 1)
+				)
+			)
+			(project "Power"
+				(path "/f49b6440-2273-4106-89d9-d58e17617669"
+					(reference "#PWR028")
 					(unit 1)
 				)
 			)
@@ -9408,6 +9624,12 @@
 					(unit 1)
 				)
 			)
+			(project "Power"
+				(path "/f49b6440-2273-4106-89d9-d58e17617669"
+					(reference "R13")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -9476,7 +9698,7 @@
 			)
 			(project "Power"
 				(path "/f49b6440-2273-4106-89d9-d58e17617669"
-					(reference "#PWR?")
+					(reference "#PWR010")
 					(unit 1)
 				)
 			)
@@ -9543,6 +9765,12 @@
 			(project "MusicPlayer"
 				(path "/2c2d2da5-7991-4e93-87f2-9633b55e39cf/45aa0140-352d-4ae6-a5c1-9b7fd6e738ab"
 					(reference "#PWR0102")
+					(unit 1)
+				)
+			)
+			(project "Power"
+				(path "/f49b6440-2273-4106-89d9-d58e17617669"
+					(reference "#PWR06")
 					(unit 1)
 				)
 			)
@@ -9637,7 +9865,7 @@
 			)
 			(project "Power"
 				(path "/f49b6440-2273-4106-89d9-d58e17617669"
-					(reference "U?")
+					(reference "U2")
 					(unit 1)
 				)
 			)
@@ -9711,7 +9939,7 @@
 			)
 			(project "Power"
 				(path "/f49b6440-2273-4106-89d9-d58e17617669"
-					(reference "#PWR?")
+					(reference "#PWR04")
 					(unit 1)
 				)
 			)
