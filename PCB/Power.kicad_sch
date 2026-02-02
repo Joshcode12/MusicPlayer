@@ -9315,9 +9315,9 @@
 		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom no)
-		(on_board no)
-		(dnp yes)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
 		(uuid "e884e69e-1a91-4143-8d2b-328a5ca409ac")
 		(property "Reference" "R10"
 			(at 35.56 71.1199 0)
@@ -9337,7 +9337,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "Resistor_SMD:R_0201_0603Metric"
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
 			(at 36.322 72.39 90)
 			(effects
 				(font

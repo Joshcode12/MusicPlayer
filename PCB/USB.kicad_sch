@@ -2975,27 +2975,7 @@
 		)
 		(uuid "f73dd08a-4eb9-4a65-b97f-6753f1f62b1a")
 	)
-	(label "USB_D+"
-		(at 97.79 125.73 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "00b6eaa5-5ec1-47a8-8c64-edefa9b4c5f8")
-	)
-	(label "USB_D-"
-		(at 97.79 128.27 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "1678f176-71b0-4e56-9edf-024243cc3f52")
-	)
-	(label "USB_D+"
+	(label "D+"
 		(at 76.2 125.73 0)
 		(effects
 			(font
@@ -3005,7 +2985,7 @@
 		)
 		(uuid "849888bb-45d5-47ef-ae6c-8e965c8d8e30")
 	)
-	(label "USB_D-"
+	(label "D-"
 		(at 76.2 128.27 0)
 		(effects
 			(font
