@@ -538,8 +538,8 @@
       "gencad": "",
       "idf": "",
       "netlist": "",
-      "plot": "",
-      "pos_files": "",
+      "plot": "../../../../Downloads/",
+      "pos_files": "../../../../Downloads/",
       "specctra_dsn": "",
       "step": "",
       "svg": "",
@@ -601,7 +601,7 @@
           "show": false
         },
         {
-          "group_by": true,
+          "group_by": false,
           "label": "Footprint",
           "name": "Footprint",
           "show": true
@@ -653,8 +653,8 @@
       "group_symbols": true,
       "include_excluded_from_bom": true,
       "name": "",
-      "sort_asc": true,
-      "sort_field": "Reference"
+      "sort_asc": false,
+      "sort_field": "LCSC"
     },
     "connection_grid_size": 50.0,
     "drawing": {
